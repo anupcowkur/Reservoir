@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-
 /**
  * The main reservoir class.
  */
@@ -20,24 +18,18 @@ public class Reservoir {
      * @param context context.
      * @param maxSize the maximum size in bytes.
      */
-    public static synchronized boolean init(Context context, long maxSize) {
-        try {
-            cache = SimpleDiskCache.open(context.getFilesDir(), 1, maxSize);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+    public static synchronized void init(Context context, long maxSize) throws Exception {
 
+        cache = SimpleDiskCache.open(context.getFilesDir(), 1, maxSize);
     }
 
     /**
      * Check if an object with the given key exists in the Reservoir.
      *
      * @param key they key string.
-     * @return true if object with given key exists, false if object doesn't exist or an
-     * exception occurs during disk read.
+     * @return true if object with given key exists.
      */
-    public static boolean contains(String key) throws IOException {
+    public static boolean contains(String key) throws Exception {
 
         return cache.contains(key);
     }
@@ -50,7 +42,7 @@ public class Reservoir {
      * @param key    they key string.
      * @param object the object to be stored.
      */
-    public static void put(String key, Object object) throws IOException {
+    public static void put(String key, Object object) throws Exception {
         String json = new Gson().toJson(object);
         cache.put(key, json);
     }
@@ -76,15 +68,12 @@ public class Reservoir {
      *
      * @param key      they key string.
      * @param classOfT the Class type of the expected return object.
-     * @return the object of the given type if it exists, null if object doesn't exist.
+     * @return the object of the given type if it exists.
      */
-    public static <T> T get(String key, Class<T> classOfT) throws IOException {
-        try {
-            String json = cache.getString(key).getString();
-            return new Gson().fromJson(json, classOfT);
-        } catch (NullPointerException e) {
-            return null;
-        }
+    public static <T> T get(String key, Class<T> classOfT) throws Exception {
+
+        String json = cache.getString(key).getString();
+        return new Gson().fromJson(json, classOfT);
     }
 
     /**
