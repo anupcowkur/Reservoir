@@ -44,7 +44,7 @@ synchronous put:
 try {
     Reservoir.put("myKey",myObject);
 } catch (Exception e) {
-        //failure;
+    //failure;
 }
 ```
 
@@ -90,9 +90,9 @@ try {
 ```
 # Including in your project
 
-You can directly [download the jar](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/reservoir-1.0.jar) and add it to your project. You will also need to add the jars on which Reservoir depends i.e. [DiskLruCache](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/disklrucache-2.0.2.jar),[Apache Commons IO](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/commons-io-2.4.jar) and [GSON](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/gson-2.2.4.jar).
+You can directly [download the jar](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/reservoir-1.0.jar) and add it to your project. You will also need to add the jars on which Reservoir depends i.e. [DiskLruCache](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/disklrucache-2.0.2.jar), [Apache Commons IO](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/commons-io-2.4.jar) and [GSON](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/gson-2.2.4.jar).
 
-You can also add [the library](https://github.com/anupcowkur/Reservoir/tree/master/Library) as a [library project](https://developer.android.com/tools/projects/index.html#LibraryProjects) and reference it directly without adding the jar.
+You can also add it as a [library project](https://developer.android.com/tools/projects/index.html#LibraryProjects) and reference it directly without adding the jar.
 
 Maven and Gradle import coming soon.
 
@@ -110,7 +110,7 @@ Reservoir is just a tiny little convenience wrapper around the following fantast
 - [SimpeDiskCache](https://github.com/fhucho/simple-disk-cache)
 - [GSON](https://code.google.com/p/google-gson/)
 
-Thanks you guys!
+Thanks, you guys!
 
 # License
 This project is licensed under the MIT License. Please refer the [License.txt](https://github.com/anupcowkur/Reservoir/blob/master/LICENSE.txt) file.
