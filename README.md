@@ -113,6 +113,6 @@ Reservoir is just a tiny little convenience wrapper around the following fantast
 Thanks, you guys!
 
 # License
-This project is licensed under the MIT License. Please refer the [License.txt](https://github.com/anupcowkur/Reservoir/blob/master/LICENSE.txt) file.
+This project is licensed under the MIT License. Please refer the [License.txt](https://github.com/anupcowkur/Reservoir/blob/master/License.txt) file.
 
 
