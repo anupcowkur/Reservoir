@@ -10,10 +10,10 @@ Reservoir uses the internal storage allocated to your app. Before you can do any
 
 ```
 try {
-            Reservoir.init(this, 2048);
-        } catch (Exception e) {
-            //failure
-        }
+    Reservoir.init(this, 2048);
+} catch (Exception e) {
+        //failure
+}
 ```
 
 The best place to do this would be in your application's `onCreate()` method.
@@ -86,9 +86,7 @@ If you wish to know whether an object exists for the given key, you can use:
 ```
 try {
     boolean objectExists = Reservoir.contains("myKey");
-} catch (Exception e) {
-
-}
+} catch (Exception e) {}
 ```
 # Including in your project
 
