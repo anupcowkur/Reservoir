@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Reservoir Sample</string>
+    <string name="loading">Hang on....</string>
+    <string name="success">Success!</string>
+    <string name="failure">Failed :-(</string>
+
+</resources>

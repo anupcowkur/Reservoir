@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.8.+'
+    }
+}
+apply plugin: 'android-library'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+task clearJar(type: Delete) {
+    delete 'build/libs/reservoir-1.0.jar'
+}
+
+task makeJar(type: Copy) {
+    from('build/bundles/debug/')
+    into('build/libs/')
+    include('classes.jar')
+    rename ('classes.jar', 'reservoir-1.0.jar')
+}
+
+makeJar.dependsOn(clearJar, build)

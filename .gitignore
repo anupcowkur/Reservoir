@@ -1,0 +1,22 @@
+#built files
+build/
+out/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# IntelliJ Idea/Android Studio files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Mac system files
+.DS_*
+
+#proguard
+proguard_logs/
+
+#gradle
+.gradle/
