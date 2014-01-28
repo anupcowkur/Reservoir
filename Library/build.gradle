@@ -36,7 +36,7 @@ task makeJar(type: Copy) {
     from('build/bundles/debug/')
     into('build/libs/')
     include('classes.jar')
-    rename ('classes.jar', 'reservoir-1.0.jar')
+    rename ('classes.jar', 'reservoir-'+project.VERSION_NAME+'.jar')
 }
 
 makeJar.dependsOn(clearJar, build)
