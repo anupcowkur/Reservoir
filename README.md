@@ -92,12 +92,24 @@ try {
 
 You can directly [download the jar](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/reservoir-1.0.jar) and add it to your project. You will also need to add the jars on which Reservoir depends i.e. [DiskLruCache](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/disklrucache-2.0.2.jar), [Apache Commons IO](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/commons-io-2.4.jar) and [GSON](https://github.com/anupcowkur/Reservoir/releases/download/v1.0/gson-2.2.4.jar).
 
-You can also add it as a [library project](https://developer.android.com/tools/projects/index.html#LibraryProjects) and reference it directly without adding the jar.
+If you use Maven:
 
-Maven and Gradle import coming soon.
+```
+<dependency>
+  <groupId>com.github.anupcowkur</groupId>
+  <artifactId>resrvoir</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+
+or Gradle:
+
+```
+compile 'com.github.anupcowkur:reservoir:1.0'
+```
 
 # Sample
-Check out the [sample application](https://github.com/anupcowkur/Reservoir/tree/master/Sample) to see it in action!
+Check out the [sample application](https://github.com/anupcowkur/Reservoir/tree/master/Sample) for example of typical usage.
 
 # Contributing
 Contributions welcome via Github pull requests.
