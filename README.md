@@ -8,7 +8,7 @@ Reservoir is a simple library for Android that allows you to easily serialize an
 ## Initialize
 Reservoir uses the internal storage allocated to your app. Before you can do anything, you need to initialize Reservoir with the cache size.
 
-```
+```java
 try {
     Reservoir.init(this, 2048);
 } catch (Exception e) {
@@ -26,7 +26,7 @@ You can put objects into Reservoir synchronously or asynchronously.
 
 Async put will you give you a callback on completion:
 
-```
+```java
 Reservoir.putAsync("myKey", myObject, new ReservoirPutCallback() {
             @Override
             public void onComplete(Exception e) {
@@ -40,7 +40,7 @@ Reservoir.putAsync("myKey", myObject, new ReservoirPutCallback() {
 
 synchronous put:
 
-```
+```java
 try {
     Reservoir.put("myKey",myObject);
 } catch (Exception e) {
@@ -56,7 +56,7 @@ You can get stuff out of Reservoir synchronously or asynchronously as well.
 
 Async get will give you a callback on completion:
 
-```
+```java
 Reservoir.getAsync("myKey", MyClass.class, new ReservoirGetCallback<MyClass>() {
             @Override
             public void onComplete(Exception e, MyClass myObject) {
@@ -71,7 +71,7 @@ Reservoir.getAsync("myKey", MyClass.class, new ReservoirGetCallback<MyClass>() {
 
 synchronous get:
 
-```
+```java
 try {
     Reservoir.get("myKey",MyClass.class);
 } catch (Exception e) {
@@ -83,7 +83,7 @@ try {
 
 If you wish to know whether an object exists for the given key, you can use:
 
-```
+```java
 try {
     boolean objectExists = Reservoir.contains("myKey");
 } catch (Exception e) {}
@@ -94,7 +94,7 @@ You can directly [download the jar](https://github.com/anupcowkur/Reservoir/rele
 
 If you use Maven:
 
-```
+```xml
 <dependency>
   <groupId>com.github.anupcowkur</groupId>
   <artifactId>resrvoir</artifactId>
@@ -104,7 +104,7 @@ If you use Maven:
 
 or Gradle:
 
-```
+```groovy
 compile 'com.github.anupcowkur:reservoir:1.0'
 ```
 
