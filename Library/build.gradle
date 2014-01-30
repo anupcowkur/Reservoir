@@ -29,7 +29,7 @@ dependencies {
 }
 
 task clearJar(type: Delete) {
-    delete 'build/libs/reservoir-1.0.jar'
+    delete 'build/libs/reservoir-'+project.VERSION_NAME+'.jar'
 }
 
 task makeJar(type: Copy) {
