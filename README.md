@@ -101,14 +101,14 @@ If you use Maven:
 <dependency>
   <groupId>com.github.anupcowkur</groupId>
   <artifactId>reservoir</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
 </dependency>
 ```
 
 or Gradle:
 
 ```groovy
-compile 'com.github.anupcowkur:reservoir:1.0'
+compile 'com.github.anupcowkur:reservoir:1.1'
 ```
 
 # Sample
