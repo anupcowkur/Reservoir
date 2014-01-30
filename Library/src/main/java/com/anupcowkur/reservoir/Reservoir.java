@@ -119,7 +119,12 @@ public class Reservoir {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (callback != null) {
-                callback.onComplete(e);
+                if(e == null) {
+                    callback.onSuccess();
+                }
+                else {
+                    callback.onFailure(e);
+                }
             }
         }
 
@@ -156,7 +161,12 @@ public class Reservoir {
         @Override
         protected void onPostExecute(T object) {
             if (callback != null) {
-                callback.onComplete(e, object);
+                if(e == null) {
+                    callback.onSuccess(object);
+                }
+                else {
+                    callback.onFailure(e);
+                }
             }
         }
 

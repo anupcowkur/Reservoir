@@ -33,11 +33,13 @@ public class MainActivity extends Activity {
 
         Reservoir.putAsync(KEY, testPutObject, new ReservoirPutCallback() {
             @Override
-            public void onComplete(Exception e) {
-                if (e == null)
-                    getFromReservoir(); //async put call completed, execute get call.
-                else
-                    tv_status.setText(e.getMessage()); //failure
+            public void onSuccess() {
+                getFromReservoir(); //async put call completed, execute get call.
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                tv_status.setText(e.getMessage()); //failure
             }
         });
 
@@ -47,11 +49,15 @@ public class MainActivity extends Activity {
 
         Reservoir.getAsync(KEY, TestClass.class, new ReservoirGetCallback<TestClass>() {
             @Override
-            public void onComplete(Exception e, TestClass testGetObject) {
-                if (e == null && testGetObject.getTestString().equals(TEST_STRING)) {
+            public void onFailure(Exception e) {
+                tv_status.setText(e.getMessage()); //failure.
+            }
+
+            @Override
+            public void onSuccess(TestClass testGetObject) {
+                if (testGetObject.getTestString().equals(TEST_STRING)) {
                     tv_status.setText(getString(R.string.success)); //success!
-                } else
-                    tv_status.setText(e.getMessage()); //failure.
+                }
             }
 
         });
