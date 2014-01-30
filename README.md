@@ -100,7 +100,7 @@ If you use Maven:
 ```xml
 <dependency>
   <groupId>com.github.anupcowkur</groupId>
-  <artifactId>resrvoir</artifactId>
+  <artifactId>reservoir</artifactId>
   <version>1.0</version>
 </dependency>
 ```
