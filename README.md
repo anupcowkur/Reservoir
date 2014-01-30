@@ -29,11 +29,13 @@ Async put will you give you a callback on completion:
 ```java
 Reservoir.putAsync("myKey", myObject, new ReservoirPutCallback() {
             @Override
-            public void onComplete(Exception e) {
-                if (e == null)
-                    //success
-                else
-                    //failure
+            public void onSuccess() {
+                //success
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                //error
             }
         });
 ```
@@ -59,13 +61,14 @@ Async get will give you a callback on completion:
 ```java
 Reservoir.getAsync("myKey", MyClass.class, new ReservoirGetCallback<MyClass>() {
             @Override
-            public void onComplete(Exception e, MyClass myObject) {
-                if (e == null) {
-                   //success
-                } else
-                  //failure.
+            public void onSuccess(MyClass myObject) {
+                //success
             }
 
+            @Override
+            public void onFailure(Exception e) {
+                //error
+            }
         });
 ```
 
