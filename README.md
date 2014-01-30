@@ -10,7 +10,7 @@ Reservoir uses the internal storage allocated to your app. Before you can do any
 
 ```java
 try {
-    Reservoir.init(this, 2048);
+    Reservoir.init(this, 2048); //in bytes
 } catch (Exception e) {
         //failure
 }
