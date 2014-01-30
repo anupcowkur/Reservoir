@@ -1,14 +1,7 @@
 package com.anupcowkur.reservoir;
 
-/**
- *
- */
-public abstract class ReservoirPutCallback {
-    public void onSuccess() {
+public interface ReservoirPutCallback {
+    public void onSuccess();
 
-    }
-
-    public void onFailure(Exception e) {
-
-    }
+    public void onFailure(Exception e);
 }
