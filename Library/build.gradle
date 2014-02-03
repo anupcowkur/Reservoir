@@ -25,7 +25,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'commons-io:commons-io:2.4'
 }
 
 task clearJar(type: Delete) {
