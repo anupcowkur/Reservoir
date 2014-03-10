@@ -93,7 +93,7 @@ try {
 ```
 # Including in your project
 
-You can directly [download the jar](https://github.com/anupcowkur/Reservoir/releases/download/v1.1/reservoir-1.1.1.jar) and add it to your project. You will also need to add the jars on which Reservoir depends i.e. [DiskLruCache](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/disklrucache-2.0.2.jar), [Apache Commons IO](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/commons-io-2.4.jar) and [GSON](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/gson-2.2.4.jar).
+You can directly [download the jar](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/reservoir-1.1.1.jar) and add it to your project. You will also need to add the jars on which Reservoir depends i.e. [DiskLruCache](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/disklrucache-2.0.2.jar), [Apache Commons IO](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/commons-io-2.4.jar) and [GSON](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/gson-2.2.4.jar).
 
 If you use Maven:
 
