@@ -111,6 +111,17 @@ or Gradle:
 compile 'com.github.anupcowkur:reservoir:1.1.1'
 ```
 
+# FAQs
+
+## What kind of objects can I add to Reservoir?
+Anything that GSON can serialize.
+
+## What happens if my cache size is exceeded?
+Older objects will be removed in a LRU (Least Recently Used) order.
+
+## Can I use this a SharedPreferences replacement?
+NO! This is a cache. You should store stuff in here that is good to have around, but you wouldn't mind if they were to be removed. SharedPreferences are meant to store user preferences which is not something you want to lose.
+
 # Sample
 Check out the [sample application](https://github.com/anupcowkur/Reservoir/tree/master/Sample) for example of typical usage.
 
