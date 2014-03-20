@@ -1,7 +1,7 @@
 Reservoir
 =========
 
-Reservoir is a simple library for Android that allows you to easily serialize and persist your objects on disk using key/value pairs.
+Reservoir is a simple library for Android that allows you to easily serialize and cache your objects to disk using key/value pairs.
 
 # Usage
 
