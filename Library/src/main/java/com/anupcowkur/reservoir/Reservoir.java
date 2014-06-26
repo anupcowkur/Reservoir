@@ -73,7 +73,10 @@ public class Reservoir {
     public static <T> T get(String key, Class<T> classOfT) throws Exception {
 
         String json = cache.getString(key).getString();
-        return new Gson().fromJson(json, classOfT);
+        T value = new Gson().fromJson(json, classOfT);
+        if(value == null)
+            throw new NullPointerException();
+        return value;
     }
 
     /**
@@ -151,7 +154,10 @@ public class Reservoir {
         protected T doInBackground(Void... params) {
             try {
                 String json = cache.getString(key).getString();
-                return new Gson().fromJson(json, classOfT);
+                T value = new Gson().fromJson(json, classOfT);
+                if(value == null)
+                    throw new NullPointerException();
+                return value;
             } catch (Exception e) {
                 this.e = e;
                 return null;
