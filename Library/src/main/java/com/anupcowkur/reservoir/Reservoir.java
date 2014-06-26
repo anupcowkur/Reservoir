@@ -26,7 +26,7 @@ public class Reservoir {
     /**
      * Check if an object with the given key exists in the Reservoir.
      *
-     * @param key they key string.
+     * @param key the key string.
      * @return true if object with given key exists.
      */
     public static boolean contains(String key) throws Exception {
@@ -39,7 +39,7 @@ public class Reservoir {
      * stored object with the same
      * key (if any) will be overwritten.
      *
-     * @param key    they key string.
+     * @param key    the key string.
      * @param object the object to be stored.
      */
     public static void put(String key, Object object) throws Exception {
@@ -52,7 +52,7 @@ public class Reservoir {
      * stored object with the same
      * key (if any) will be overwritten.
      *
-     * @param key      they key string.
+     * @param key      the key string.
      * @param object   the object to be stored.
      * @param callback a callback of type {@link com.anupcowkur.reservoirsample
      *                 .ReservoirPutCallback} which is called upon completion.
@@ -66,7 +66,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
-     * @param key      they key string.
+     * @param key      the key string.
      * @param classOfT the Class type of the expected return object.
      * @return the object of the given type if it exists.
      */
@@ -79,7 +79,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
-     * @param key      they key string.
+     * @param key      the key string.
      * @param callback a callback of type {@link com.anupcowkur.reservoirsample
      *                 .ReservoirGetCallback} which is called upon completion.
      */
