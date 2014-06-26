@@ -83,6 +83,10 @@ class SimpleDiskCache {
         put(key, value, new HashMap<String, Serializable>());
     }
 
+    void delete(String key) throws IOException {
+        put(key, "", new HashMap<String, Serializable>());
+    }
+
     private void put(String key, String value, Map<String, ? extends Serializable> annotations)
             throws
             IOException {

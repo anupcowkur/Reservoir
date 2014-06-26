@@ -92,6 +92,31 @@ public class Reservoir {
     }
 
     /**
+     * Delete an object from Reservoir with the given key. This a blocking IO operation. Previously
+     * stored object with the same
+     * key (if any) will be deleted.
+     *
+     * @param key the key string.
+     */
+    public static void delete(String key) throws Exception {
+        cache.delete(key);
+    }
+
+    /**
+     * Delete an object into Reservoir with the given key asynchronously. Previously
+     * stored object with the same
+     * key (if any) will be deleted.
+     *
+     * @param key      the key string.
+     * @param callback a callback of type {@link com.anupcowkur.reservoirsample
+     *                 .ReservoirDeleteCallback} which is called upon completion.
+     */
+    public static void deleteAsync(String key, ReservoirDeleteCallback callback) {
+
+        new DeleteTask(key, callback).execute();
+    }
+
+    /**
      * AsyncTask to perform put operation in a background thread.
      */
     private static class PutTask extends AsyncTask<Void, Void, Void> {
@@ -122,10 +147,9 @@ public class Reservoir {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (callback != null) {
-                if(e == null) {
+                if (e == null) {
                     callback.onSuccess();
-                }
-                else {
+                } else {
                     callback.onFailure(e);
                 }
             }
@@ -167,14 +191,52 @@ public class Reservoir {
         @Override
         protected void onPostExecute(T object) {
             if (callback != null) {
-                if(e == null) {
+                if (e == null) {
                     callback.onSuccess(object);
-                }
-                else {
+                } else {
                     callback.onFailure(e);
                 }
             }
         }
 
     }
+
+    /**
+     * AsyncTask to perform delete operation in a background thread.
+     */
+    private static class DeleteTask extends AsyncTask<Void, Void, Void> {
+
+        private final String key;
+        private Exception e;
+        private final ReservoirDeleteCallback callback;
+
+        private DeleteTask(String key, ReservoirDeleteCallback callback) {
+            this.key = key;
+            this.callback = callback;
+            this.e = null;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                cache.delete(key);
+            } catch (Exception e) {
+                this.e = e;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (callback != null) {
+                if (e == null) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure(e);
+                }
+            }
+        }
+
+    }
+
 }
