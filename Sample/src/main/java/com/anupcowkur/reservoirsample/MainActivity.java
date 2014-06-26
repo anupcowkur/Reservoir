@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
             @Override
             public void onSuccess(TestClass testGetObject) {
                 if (testGetObject.getTestString().equals(TEST_STRING)) {
-                    tv_status.setText(getString(R.string.success)); //success!
+                    tv_status.setText(getString(R.string.reservoir_success)); //success!
                 }
             }
 
