@@ -54,8 +54,8 @@ public class Reservoir {
      *
      * @param key      the key string.
      * @param object   the object to be stored.
-     * @param callback a callback of type {@link com.anupcowkur.reservoirsample
-     *                 .ReservoirPutCallback} which is called upon completion.
+     * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirPutCallback}
+     *                 which is called upon completion.
      */
     public static void putAsync(String key, Object object,
                                 ReservoirPutCallback callback) {
@@ -74,7 +74,7 @@ public class Reservoir {
 
         String json = cache.getString(key).getString();
         T value = new Gson().fromJson(json, classOfT);
-        if(value == null)
+        if (value == null)
             throw new NullPointerException();
         return value;
     }
@@ -83,8 +83,8 @@ public class Reservoir {
      * Get an object from Reservoir with the given key asynchronously.
      *
      * @param key      the key string.
-     * @param callback a callback of type {@link com.anupcowkur.reservoirsample
-     *                 .ReservoirGetCallback} which is called upon completion.
+     * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
+     *                 which is called upon completion.
      */
     public static <T> void getAsync(String key, Class<T> classOfT,
                                     ReservoirGetCallback<T> callback) {
@@ -108,8 +108,8 @@ public class Reservoir {
      * key (if any) will be deleted.
      *
      * @param key      the key string.
-     * @param callback a callback of type {@link com.anupcowkur.reservoirsample
-     *                 .ReservoirDeleteCallback} which is called upon completion.
+     * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirDeleteCallback}
+     *                 which is called upon completion.
      */
     public static void deleteAsync(String key, ReservoirDeleteCallback callback) {
 
@@ -179,7 +179,7 @@ public class Reservoir {
             try {
                 String json = cache.getString(key).getString();
                 T value = new Gson().fromJson(json, classOfT);
-                if(value == null)
+                if (value == null)
                     throw new NullPointerException();
                 return value;
             } catch (Exception e) {
