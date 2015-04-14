@@ -1,6 +1,6 @@
 package com.anupcowkur.reservoirsample;
 
-class TestClass {
+public class TestClass {
     private String testString;
 
     public String getTestString() {
