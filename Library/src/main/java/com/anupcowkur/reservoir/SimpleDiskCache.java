@@ -84,7 +84,7 @@ class SimpleDiskCache {
     }
 
     void delete(String key) throws IOException {
-        put(key, "", new HashMap<String, Serializable>());
+        diskLruCache.remove(toInternalKey(key));
     }
 
     private void put(String key, String value, Map<String, ? extends Serializable> annotations)
