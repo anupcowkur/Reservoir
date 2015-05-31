@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * The main reservoir class.
  */
@@ -20,7 +23,17 @@ public class Reservoir {
      */
     public static synchronized void init(Context context, long maxSize) throws Exception {
 
-        cache = SimpleDiskCache.open(context.getFilesDir(), 1, maxSize);
+        //Create a directory inside the application specific cache directory. This is where all
+        // the key-value pairs will be stored.
+        File cacheDir = new File(context.getCacheDir() + "/Reservoir");
+        boolean success = true;
+        if (!cacheDir.exists()) {
+            success = cacheDir.mkdir();
+        }
+        if (!success) {
+            throw new IOException("Failed to create cache directory!");
+        }
+        cache = SimpleDiskCache.open(cacheDir, 1, maxSize);
     }
 
     /**
@@ -30,7 +43,6 @@ public class Reservoir {
      * @return true if object with given key exists.
      */
     public static boolean contains(String key) throws Exception {
-
         return cache.contains(key);
     }
 
