@@ -15,6 +15,8 @@ public class Reservoir {
 
     private static SimpleDiskCache cache;
 
+    private static File cacheDir;
+
     /**
      * Initialize Reservoir
      *
@@ -25,7 +27,17 @@ public class Reservoir {
 
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
-        File cacheDir = new File(context.getCacheDir() + "/Reservoir");
+        cacheDir = new File(context.getCacheDir() + "/Reservoir");
+        creatCache(cacheDir, maxSize);
+    }
+
+    /**
+     * Creates the cache.
+     *
+     * @param cacheDir the directory where the cache is to be created.
+     * @param maxSize  the maximum cache size in bytes.
+     */
+    private static synchronized void creatCache(File cacheDir, long maxSize) throws Exception {
         boolean success = true;
         if (!cacheDir.exists()) {
             success = cacheDir.mkdir();
@@ -127,6 +139,30 @@ public class Reservoir {
 
         new DeleteTask(key, callback).execute();
     }
+
+    /**
+     * Clears the cache. Deletes all the stored key-value pairs synchronously.
+     */
+    public static void clear() throws Exception {
+        long maxSize = cache.getMaxSize();
+        cache.destroy();
+        creatCache(cacheDir, maxSize);
+    }
+
+    /**
+     * Clears the cache. Deletes all the stored key-value pairs asynchronously.
+     */
+    public static void clearAsync(ReservoirClearCallback callback) throws Exception {
+        new ClearTask(callback).execute();
+    }
+
+    /**
+     * Returns the number of bytes being used currently by the cache.
+     */
+    static long bytesUsed() throws Exception {
+        return cache.bytesUsed();
+    }
+
 
     /**
      * AsyncTask to perform put operation in a background thread.
@@ -233,6 +269,42 @@ public class Reservoir {
         protected Void doInBackground(Void... params) {
             try {
                 cache.delete(key);
+            } catch (Exception e) {
+                this.e = e;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (callback != null) {
+                if (e == null) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure(e);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * AsyncTask to perform clear operation in a background thread.
+     */
+    private static class ClearTask extends AsyncTask<Void, Void, Void> {
+
+        private Exception e;
+        private final ReservoirClearCallback callback;
+
+        private ClearTask(ReservoirClearCallback callback) {
+            this.callback = callback;
+            this.e = null;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                clear();
             } catch (Exception e) {
                 this.e = e;
             }

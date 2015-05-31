@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
@@ -130,6 +131,46 @@ public class ReservoirTest {
 
         //put the large string into the cache
         Reservoir.put(KEY, sb.toString());
+
+    }
+
+    @Test
+    @MediumTest
+    public void testSyncShouldClearCache() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+        testPutObject.setTestString(TEST_STRING);
+        Reservoir.put(KEY, testPutObject);
+
+        Reservoir.clear();
+
+        assertEquals(0, Reservoir.bytesUsed());
+
+    }
+
+    @Test
+    @MediumTest
+    public void testAsyncShouldClearCache() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+        testPutObject.setTestString(TEST_STRING);
+        Reservoir.put(KEY, testPutObject);
+
+        Reservoir.clearAsync(new ReservoirClearCallback() {
+            @Override
+            public void onSuccess() {
+                try {
+                    assertEquals(0, Reservoir.bytesUsed());
+                } catch (Exception e) {
+                    fail("cache clearing failed: " + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
 
     }
 

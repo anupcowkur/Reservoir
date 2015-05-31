@@ -15,9 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 class SimpleDiskCache {
@@ -26,7 +24,6 @@ class SimpleDiskCache {
             "cache size!";
     private static final int VALUE_IDX = 0;
     private static final int METADATA_IDX = 1;
-    private static final List<File> usedDirs = new ArrayList<File>();
 
     private final DiskLruCache diskLruCache;
 
@@ -36,13 +33,6 @@ class SimpleDiskCache {
 
     static synchronized SimpleDiskCache open(File dir, int appVersion,
                                              long maxSize) throws IOException {
-
-        if (usedDirs.contains(dir)) {
-            throw new IllegalStateException("Cache dir " + dir.getAbsolutePath() + " was used " +
-                    "before.");
-        }
-
-        usedDirs.add(dir);
 
         return new SimpleDiskCache(dir, appVersion, maxSize);
     }
@@ -94,6 +84,14 @@ class SimpleDiskCache {
 
     void delete(String key) throws IOException {
         diskLruCache.remove(toInternalKey(key));
+    }
+
+    public void destroy() throws IOException {
+        diskLruCache.delete();
+    }
+
+    long bytesUsed() throws IOException {
+        return diskLruCache.size();
     }
 
     private void put(String key, String value, Map<String, ? extends Serializable> annotations)
