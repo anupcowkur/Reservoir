@@ -28,7 +28,7 @@ public class Reservoir {
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
         cacheDir = new File(context.getCacheDir() + "/Reservoir");
-        creatCache(cacheDir, maxSize);
+        createCache(cacheDir, maxSize);
     }
 
     /**
@@ -37,7 +37,7 @@ public class Reservoir {
      * @param cacheDir the directory where the cache is to be created.
      * @param maxSize  the maximum cache size in bytes.
      */
-    private static synchronized void creatCache(File cacheDir, long maxSize) throws Exception {
+    private static synchronized void createCache(File cacheDir, long maxSize) throws Exception {
         boolean success = true;
         if (!cacheDir.exists()) {
             success = cacheDir.mkdir();
@@ -146,7 +146,7 @@ public class Reservoir {
     public static void clear() throws Exception {
         long maxSize = cache.getMaxSize();
         cache.destroy();
-        creatCache(cacheDir, maxSize);
+        createCache(cacheDir, maxSize);
     }
 
     /**
