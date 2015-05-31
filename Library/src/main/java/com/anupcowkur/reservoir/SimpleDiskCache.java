@@ -22,6 +22,8 @@ import java.util.Map;
 
 class SimpleDiskCache {
 
+    static final String OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE = "Object size greater than " +
+            "cache size!";
     private static final int VALUE_IDX = 0;
     private static final int METADATA_IDX = 1;
     private static final List<File> usedDirs = new ArrayList<File>();
@@ -57,6 +59,10 @@ class SimpleDiskCache {
         }
     }
 
+    long getMaxSize() throws IOException {
+        return diskLruCache.getMaxSize();
+    }
+
     boolean contains(String key) throws IOException {
         DiskLruCache.Snapshot snapshot = diskLruCache.get(toInternalKey(key));
         if (snapshot == null)
@@ -80,6 +86,9 @@ class SimpleDiskCache {
     }
 
     void put(String key, String value) throws IOException {
+        if (value.getBytes().length > getMaxSize()) {
+            throw new IOException(OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE);
+        }
         put(key, value, new HashMap<String, Serializable>());
     }
 

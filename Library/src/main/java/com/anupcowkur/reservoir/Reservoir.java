@@ -135,6 +135,7 @@ public class Reservoir {
 
         @Override
         protected Void doInBackground(Void... params) {
+
             try {
                 String json = new Gson().toJson(object);
                 cache.put(key, json);

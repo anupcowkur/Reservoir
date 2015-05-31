@@ -8,6 +8,9 @@ import com.anupcowkur.reservoirsample.TestClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -25,6 +28,9 @@ public class ReservoirTest {
 
     @Rule
     public final ActivityRule<MainActivity> rule = new ActivityRule<>(MainActivity.class);
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Before
     public void init() {
@@ -104,6 +110,27 @@ public class ReservoirTest {
                 assertThat(e, instanceOf(NullPointerException.class));
             }
         });
+    }
+
+    @Test
+    @MediumTest
+    public void testSyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
+            Exception {
+
+        expectedEx.expect(IOException.class);
+        expectedEx.expectMessage(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE);
+
+        //create a string of more than 2048 bytes since that's the size of the cache in the
+        // sample app.
+        final int stringSize = 2049;
+        StringBuilder sb = new StringBuilder(stringSize);
+        for (int i = 0; i < stringSize; i++) {
+            sb.append('a');
+        }
+
+        //put the large string into the cache
+        Reservoir.put(KEY, sb.toString());
+
     }
 
 }
