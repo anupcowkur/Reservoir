@@ -73,14 +73,14 @@ public class ReservoirTest {
 
                     @Override
                     public void onFailure(Exception e) {
-
+                        fail();
                     }
                 });
             }
 
             @Override
             public void onFailure(Exception e) {
-
+                fail();
             }
         });
 
@@ -103,7 +103,7 @@ public class ReservoirTest {
         Reservoir.getAsync("non_existent_key", TestClass.class, new ReservoirGetCallback<TestClass>() {
             @Override
             public void onSuccess(TestClass object) {
-
+                fail();
             }
 
             @Override
@@ -175,13 +175,13 @@ public class ReservoirTest {
                 try {
                     assertEquals(0, Reservoir.bytesUsed());
                 } catch (Exception e) {
-                    fail("cache clearing failed: " + e);
+                    fail();
                 }
             }
 
             @Override
             public void onFailure(Exception e) {
-
+                fail();
             }
         });
 
