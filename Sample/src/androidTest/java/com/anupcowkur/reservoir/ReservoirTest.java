@@ -121,16 +121,29 @@ public class ReservoirTest {
         expectedEx.expect(IOException.class);
         expectedEx.expectMessage(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE);
 
-        //create a string of more than 2048 bytes since that's the size of the cache in the
-        // sample app.
-        final int stringSize = 2049;
-        StringBuilder sb = new StringBuilder(stringSize);
-        for (int i = 0; i < stringSize; i++) {
-            sb.append('a');
-        }
+        //put the large string into the cache
+        Reservoir.put(KEY, TestUtils.getLargeString());
+
+    }
+
+    @Test
+    @MediumTest
+    public void testASyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
+            Exception {
 
         //put the large string into the cache
-        Reservoir.put(KEY, sb.toString());
+        Reservoir.putAsync(KEY, TestUtils.getLargeString(), new ReservoirPutCallback() {
+            @Override
+            public void onSuccess() {
+                fail();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                assertThat(e, instanceOf(IOException.class));
+                assertEquals(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE, e.getMessage());
+            }
+        });
 
     }
 
