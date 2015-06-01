@@ -12,6 +12,8 @@ import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 
+import rx.Observer;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -86,6 +88,47 @@ public class ReservoirTest {
 
     }
 
+    @Test
+    @MediumTest
+    public void testAsyncRxShouldPutAndGetObject() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+
+        testPutObject.setTestString(TEST_STRING);
+
+        Reservoir.putAsync(KEY, testPutObject).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                fail();
+            }
+
+            @Override
+            public void onNext(Boolean success) {
+                Reservoir.getAsync(KEY, TestClass.class).subscribe(new Observer<TestClass>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        fail();
+                    }
+
+                    @Override
+                    public void onNext(TestClass testResultObject) {
+                        assertEquals(TEST_STRING, testResultObject.getTestString());
+                    }
+                });
+            }
+        });
+    }
+
     @Test(expected = NullPointerException.class)
     @MediumTest
     public void testSyncShouldThrowNullPointerExceptionWhenObjectDoesNotExist() throws
@@ -121,9 +164,7 @@ public class ReservoirTest {
         expectedEx.expect(IOException.class);
         expectedEx.expectMessage(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE);
 
-        //put the large string into the cache
         Reservoir.put(KEY, TestUtils.getLargeString());
-
     }
 
     @Test
@@ -131,7 +172,6 @@ public class ReservoirTest {
     public void testASyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
             Exception {
 
-        //put the large string into the cache
         Reservoir.putAsync(KEY, TestUtils.getLargeString(), new ReservoirPutCallback() {
             @Override
             public void onSuccess() {
@@ -145,6 +185,75 @@ public class ReservoirTest {
             }
         });
 
+    }
+
+    @Test
+    @MediumTest
+    public void testSyncShouldDeleteObject() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+        testPutObject.setTestString(TEST_STRING);
+        Reservoir.put(KEY, testPutObject);
+
+        Reservoir.delete(KEY);
+
+        assertEquals(false, Reservoir.contains(KEY));
+
+    }
+
+    @Test
+    @MediumTest
+    public void testAsyncShouldDeleteObject() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+        testPutObject.setTestString(TEST_STRING);
+        Reservoir.put(KEY, testPutObject);
+
+        Reservoir.deleteAsync(KEY, new ReservoirDeleteCallback() {
+            @Override
+            public void onSuccess() {
+                try {
+                    assertEquals(false, Reservoir.contains(KEY));
+                } catch (Exception e) {
+                    fail();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                fail();
+            }
+        });
+    }
+
+    @Test
+    @MediumTest
+    public void testAsyncRxShouldDeleteObject() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+        testPutObject.setTestString(TEST_STRING);
+        Reservoir.put(KEY, testPutObject);
+
+        Reservoir.deleteAsync(KEY).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                fail();
+            }
+
+            @Override
+            public void onNext(Boolean success) {
+                try {
+                    assertEquals(false, Reservoir.contains(KEY));
+                } catch (Exception e) {
+                    fail();
+                }
+            }
+        });
     }
 
     @Test
@@ -185,6 +294,36 @@ public class ReservoirTest {
             }
         });
 
+    }
+
+    @Test
+    @MediumTest
+    public void testAsyncRxShouldClearCache() throws Exception {
+
+        TestClass testPutObject = new TestClass();
+        testPutObject.setTestString(TEST_STRING);
+        Reservoir.put(KEY, testPutObject);
+
+        Reservoir.clearAsync().subscribe(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                fail();
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                try {
+                    assertEquals(0, Reservoir.bytesUsed());
+                } catch (Exception e) {
+                    fail();
+                }
+            }
+        });
     }
 
 }

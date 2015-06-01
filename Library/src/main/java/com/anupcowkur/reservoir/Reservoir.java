@@ -8,6 +8,11 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
  * The main reservoir class.
  */
@@ -105,6 +110,32 @@ public class Reservoir {
     }
 
     /**
+     * Put an object into Reservoir with the given key asynchronously. Previously
+     * stored object with the same
+     * key (if any) will be overwritten.
+     *
+     * @param key    the key string.
+     * @param object the object to be stored.
+     * @return an {@link Observable} that will insert the object into Reservoir. By default, this
+     * will be scheduled on a background thread and will be observed on the main thread.
+     */
+    public static Observable<Boolean> putAsync(final String key, final Object object) {
+        failIfNotInitialised();
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                try {
+                    Reservoir.put(key, object);
+                    subscriber.onNext(true);
+                    subscriber.onCompleted();
+                } catch (Exception exception) {
+                    subscriber.onError(exception);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
      * @param key      the key string.
@@ -130,7 +161,30 @@ public class Reservoir {
     public static <T> void getAsync(String key, Class<T> classOfT,
                                     ReservoirGetCallback<T> callback) {
         failIfNotInitialised();
-        new GetTask<T>(key, classOfT, callback).execute();
+        new GetTask<>(key, classOfT, callback).execute();
+    }
+
+    /**
+     * Get an object from Reservoir with the given key asynchronously.
+     *
+     * @param key the key string.
+     * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
+     * will be scheduled on a background thread and will be observed on the main thread.
+     */
+    public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT) {
+        failIfNotInitialised();
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                try {
+                    T t = Reservoir.get(key, classOfT);
+                    subscriber.onNext(t);
+                    subscriber.onCompleted();
+                } catch (Exception exception) {
+                    subscriber.onError(exception);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -160,6 +214,31 @@ public class Reservoir {
     }
 
     /**
+     * Delete an object into Reservoir with the given key asynchronously. Previously
+     * stored object with the same
+     * key (if any) will be deleted.
+     *
+     * @param key the key string.
+     * @return an {@link Observable} that will delete the object from Reservoir.By default, this
+     * will be scheduled on a background thread and will be observed on the main thread.
+     */
+    public static Observable<Boolean> deleteAsync(final String key) {
+        failIfNotInitialised();
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                try {
+                    Reservoir.delete(key);
+                    subscriber.onNext(true);
+                    subscriber.onCompleted();
+                } catch (Exception exception) {
+                    subscriber.onError(exception);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * Clears the cache. Deletes all the stored key-value pairs synchronously.
      */
     public static void clear() throws Exception {
@@ -175,6 +254,28 @@ public class Reservoir {
     public static void clearAsync(ReservoirClearCallback callback) throws Exception {
         failIfNotInitialised();
         new ClearTask(callback).execute();
+    }
+
+    /**
+     * Clears the cache. Deletes all the stored key-value pairs asynchronously.
+     *
+     * @return an {@link Observable} that will clear all the key-value pairs from Reservoir.By default, this
+     * will be scheduled on a background thread and will be observed on the main thread.
+     */
+    public static Observable<Boolean> clearAsync() {
+        failIfNotInitialised();
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                try {
+                    Reservoir.clear();
+                    subscriber.onNext(true);
+                    subscriber.onCompleted();
+                } catch (Exception exception) {
+                    subscriber.onError(exception);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
