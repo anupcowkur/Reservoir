@@ -6,7 +6,7 @@ Reservoir is a simple library for Android that allows you to easily serialize an
 # Usage
 
 ## Initialize
-Reservoir uses the internal storage allocated to your app. Before you can do anything, you need to initialize Reservoir with the cache size.
+Reservoir uses the internal cache storage allocated to your app. Before you can do anything, you need to initialize Reservoir with the cache size.
 
 ```java
 try {
@@ -122,25 +122,94 @@ try {
 }
 ```
 
+## Clearing the cache
+
+You can clear the entire cache at once if you want. 
+
+asynchronous clear:
+
+```java
+Reservoir.clearAsync(new ReservoirClearCallback() {
+            @Override
+            public void onSuccess() {
+                try {
+                    assertEquals(0, Reservoir.bytesUsed());
+                } catch (Exception e) {
+                   
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                
+            }
+        });
+```
+
+synchronous clear:
+
+```java
+try {
+    Reservoir.clear();
+} catch (Exception e) {
+        //failure
+}
+```
+
+
 # Including in your project
 
-You can directly [download the jar](https://github.com/anupcowkur/Reservoir/releases/download/v1.2/reservoir-1.2.jar) and add it to your project. You will also need to add the jars on which Reservoir depends i.e. [DiskLruCache](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/disklrucache-2.0.2.jar), [Apache Commons IO](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/commons-io-2.4.jar) and [GSON](https://github.com/anupcowkur/Reservoir/releases/download/v1.1.1/gson-2.2.4.jar).
-
-If you use Maven:
-
-```xml
-<dependency>
-  <groupId>com.github.anupcowkur</groupId>
-  <artifactId>reservoir</artifactId>
-  <version>1.2</version>
-</dependency>
-```
-
-or Gradle:
+Just add this to your gradle file:
 
 ```groovy
-compile 'com.github.anupcowkur:reservoir:1.2'
+compile 'com.github.anupcowkur:reservoir:2.0'
 ```
+
+## RxJava
+
+As of version 2.0, you can use Reservoir with RxJava! All the async methods have RxJava variants that return observables. These observables are scheduled on a background thread and observed on the main thread by default (you can change this easily by assigning your own schedulers and observers to the returned observable).
+
+put:
+```
+Reservoir.putAsync("myKey", myObject) returns Observable<Boolean>
+```
+
+get:
+```
+Reservoir.getAsync("myKey", MyClass.class) returns Observable<MyClass>
+```
+
+delete:
+```
+Reservoir.deleteAsync("myKey") returns Observable<Boolean>
+```
+
+clear:
+```
+Reservoir.clearAsync() returns Observable<Boolean>
+```
+
+You can subscribe to any of these returned Observables like this:
+
+```
+Reservoir.putAsync("myKey", myObject).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+                //do something on completion
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //do something on error
+            }
+
+            @Override
+            public void onNext(Boolean success) {
+                //do something on success status receipt
+            }
+        });
+```
+
 
 # FAQs
 
@@ -166,8 +235,7 @@ Reservoir is just a tiny little convenience wrapper around the following fantast
 - [Apache Commons IO](http://commons.apache.org/proper/commons-io/)
 - [SimpeDiskCache](https://github.com/fhucho/simple-disk-cache)
 - [GSON](https://code.google.com/p/google-gson/)
-
-Thanks, you guys!
+- [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 
 # License
 This project is licensed under the MIT License. Please refer the [License.txt](https://github.com/anupcowkur/Reservoir/blob/master/License.txt) file.
