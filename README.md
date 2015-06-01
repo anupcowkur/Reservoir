@@ -155,16 +155,6 @@ try {
         //failure
 }
 ```
-
-
-# Including in your project
-
-Just add this to your gradle file:
-
-```groovy
-compile 'com.github.anupcowkur:reservoir:2.0'
-```
-
 ## RxJava
 
 As of version 2.0, you can use Reservoir with RxJava! All the async methods have RxJava variants that return observables. These observables are scheduled on a background thread and observed on the main thread by default (you can change this easily by assigning your own schedulers and observers to the returned observable).
@@ -210,6 +200,25 @@ Reservoir.putAsync("myKey", myObject).subscribe(new Observer<Boolean>() {
         });
 ```
 
+# Including in your project
+
+Add the jitpack repository to your gradle build file:
+
+```
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+```
+
+Next, add Reservoir as a dependency:
+
+```groovy
+dependencies {
+    compile 'com.github.anupcowkur:reservoir:2.0'
+}
+```
 
 # FAQs
 
