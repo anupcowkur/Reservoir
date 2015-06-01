@@ -17,6 +17,8 @@ public class Reservoir {
 
     private static File cacheDir;
 
+    private static boolean initialised = false;
+
     /**
      * Initialize Reservoir
      *
@@ -29,6 +31,19 @@ public class Reservoir {
         // the key-value pairs will be stored.
         cacheDir = new File(context.getCacheDir() + "/Reservoir");
         createCache(cacheDir, maxSize);
+        initialised = true;
+    }
+
+    /**
+     * Checks if init method has been called and throws an IllegalStateException if it hasn't.
+     *
+     * @throws IllegalStateException
+     */
+    private static void failIfNotInitialised() throws IllegalStateException {
+        if (!initialised) {
+            throw new IllegalStateException("Init hasn't been called! You need to initialise " +
+                    "Reservoir before you call any other methods.");
+        }
     }
 
     /**
@@ -55,6 +70,7 @@ public class Reservoir {
      * @return true if object with given key exists.
      */
     public static boolean contains(String key) throws Exception {
+        failIfNotInitialised();
         return cache.contains(key);
     }
 
@@ -67,6 +83,7 @@ public class Reservoir {
      * @param object the object to be stored.
      */
     public static void put(String key, Object object) throws Exception {
+        failIfNotInitialised();
         String json = new Gson().toJson(object);
         cache.put(key, json);
     }
@@ -83,7 +100,7 @@ public class Reservoir {
      */
     public static void putAsync(String key, Object object,
                                 ReservoirPutCallback callback) {
-
+        failIfNotInitialised();
         new PutTask(key, object, callback).execute();
     }
 
@@ -95,7 +112,7 @@ public class Reservoir {
      * @return the object of the given type if it exists.
      */
     public static <T> T get(String key, Class<T> classOfT) throws Exception {
-
+        failIfNotInitialised();
         String json = cache.getString(key).getString();
         T value = new Gson().fromJson(json, classOfT);
         if (value == null)
@@ -112,6 +129,7 @@ public class Reservoir {
      */
     public static <T> void getAsync(String key, Class<T> classOfT,
                                     ReservoirGetCallback<T> callback) {
+        failIfNotInitialised();
         new GetTask<T>(key, classOfT, callback).execute();
     }
 
@@ -123,6 +141,7 @@ public class Reservoir {
      * @param key the key string.
      */
     public static void delete(String key) throws Exception {
+        failIfNotInitialised();
         cache.delete(key);
     }
 
@@ -136,7 +155,7 @@ public class Reservoir {
      *                 which is called upon completion.
      */
     public static void deleteAsync(String key, ReservoirDeleteCallback callback) {
-
+        failIfNotInitialised();
         new DeleteTask(key, callback).execute();
     }
 
@@ -144,6 +163,7 @@ public class Reservoir {
      * Clears the cache. Deletes all the stored key-value pairs synchronously.
      */
     public static void clear() throws Exception {
+        failIfNotInitialised();
         long maxSize = cache.getMaxSize();
         cache.destroy();
         createCache(cacheDir, maxSize);
@@ -153,6 +173,7 @@ public class Reservoir {
      * Clears the cache. Deletes all the stored key-value pairs asynchronously.
      */
     public static void clearAsync(ReservoirClearCallback callback) throws Exception {
+        failIfNotInitialised();
         new ClearTask(callback).execute();
     }
 
@@ -160,6 +181,7 @@ public class Reservoir {
      * Returns the number of bytes being used currently by the cache.
      */
     static long bytesUsed() throws Exception {
+        failIfNotInitialised();
         return cache.bytesUsed();
     }
 
