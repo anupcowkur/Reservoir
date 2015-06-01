@@ -30,7 +30,7 @@ public class Reservoir {
      * @param context context.
      * @param maxSize the maximum size in bytes.
      */
-    public static synchronized void init(Context context, long maxSize) throws Exception {
+    public static synchronized void init(final Context context, final long maxSize) throws Exception {
 
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
@@ -57,7 +57,8 @@ public class Reservoir {
      * @param cacheDir the directory where the cache is to be created.
      * @param maxSize  the maximum cache size in bytes.
      */
-    private static synchronized void createCache(File cacheDir, long maxSize) throws Exception {
+    private static synchronized void createCache(final File cacheDir, final long maxSize) throws
+            Exception {
         boolean success = true;
         if (!cacheDir.exists()) {
             success = cacheDir.mkdir();
@@ -74,7 +75,7 @@ public class Reservoir {
      * @param key the key string.
      * @return true if object with given key exists.
      */
-    public static boolean contains(String key) throws Exception {
+    public static boolean contains(final String key) throws Exception {
         failIfNotInitialised();
         return cache.contains(key);
     }
@@ -87,7 +88,7 @@ public class Reservoir {
      * @param key    the key string.
      * @param object the object to be stored.
      */
-    public static void put(String key, Object object) throws Exception {
+    public static void put(final String key, final Object object) throws Exception {
         failIfNotInitialised();
         String json = new Gson().toJson(object);
         cache.put(key, json);
@@ -103,8 +104,8 @@ public class Reservoir {
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirPutCallback}
      *                 which is called upon completion.
      */
-    public static void putAsync(String key, Object object,
-                                ReservoirPutCallback callback) {
+    public static void putAsync(final String key, final Object object,
+                                final ReservoirPutCallback callback) {
         failIfNotInitialised();
         new PutTask(key, object, callback).execute();
     }
@@ -142,7 +143,7 @@ public class Reservoir {
      * @param classOfT the Class type of the expected return object.
      * @return the object of the given type if it exists.
      */
-    public static <T> T get(String key, Class<T> classOfT) throws Exception {
+    public static <T> T get(final String key, final Class<T> classOfT) throws Exception {
         failIfNotInitialised();
         String json = cache.getString(key).getString();
         T value = new Gson().fromJson(json, classOfT);
@@ -158,8 +159,8 @@ public class Reservoir {
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
      *                 which is called upon completion.
      */
-    public static <T> void getAsync(String key, Class<T> classOfT,
-                                    ReservoirGetCallback<T> callback) {
+    public static <T> void getAsync(final String key, final Class<T> classOfT,
+                                    final ReservoirGetCallback<T> callback) {
         failIfNotInitialised();
         new GetTask<>(key, classOfT, callback).execute();
     }
@@ -194,7 +195,7 @@ public class Reservoir {
      *
      * @param key the key string.
      */
-    public static void delete(String key) throws Exception {
+    public static void delete(final String key) throws Exception {
         failIfNotInitialised();
         cache.delete(key);
     }
@@ -208,7 +209,7 @@ public class Reservoir {
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirDeleteCallback}
      *                 which is called upon completion.
      */
-    public static void deleteAsync(String key, ReservoirDeleteCallback callback) {
+    public static void deleteAsync(final String key, final ReservoirDeleteCallback callback) {
         failIfNotInitialised();
         new DeleteTask(key, callback).execute();
     }
@@ -251,7 +252,7 @@ public class Reservoir {
     /**
      * Clears the cache. Deletes all the stored key-value pairs asynchronously.
      */
-    public static void clearAsync(ReservoirClearCallback callback) throws Exception {
+    public static void clearAsync(final ReservoirClearCallback callback) throws Exception {
         failIfNotInitialised();
         new ClearTask(callback).execute();
     }
@@ -285,7 +286,6 @@ public class Reservoir {
         failIfNotInitialised();
         return cache.bytesUsed();
     }
-
 
     /**
      * AsyncTask to perform put operation in a background thread.
