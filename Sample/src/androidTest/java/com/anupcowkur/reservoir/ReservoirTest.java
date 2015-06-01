@@ -316,7 +316,7 @@ public class ReservoirTest {
             }
 
             @Override
-            public void onNext(Boolean aBoolean) {
+            public void onNext(Boolean success) {
                 try {
                     assertEquals(0, Reservoir.bytesUsed());
                 } catch (Exception e) {
