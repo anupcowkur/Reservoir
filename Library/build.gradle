@@ -40,6 +40,6 @@ publish {
     groupId = 'com.anupcowkur'
     artifactId = 'reservoir'
     publishVersion = project.VERSION_NAME
-    description = 'Reservoir v' + project.VERSION_NAME
+    description = 'Android library to easily serialize and cache your objects to disk using key/value pairs.'
     website = 'https://github.com/anupcowkur/Reservoir'
 }
