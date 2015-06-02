@@ -32,6 +32,7 @@ android {
 dependencies {
     compile project(':Library')
 
+    compile 'com.android.support:appcompat-v7:22.0.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'io.reactivex:rxandroid:0.24.0'

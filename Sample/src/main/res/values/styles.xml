@@ -1,8 +1,11 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="ReservoirAppTheme" parent="android:Theme">
-        <!-- Customize your theme here. -->
+    <style name="ReservoirAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="icon">@color/icons</item>
+        <item name="divider">@color/divider</item>
     </style>
 
 </resources>

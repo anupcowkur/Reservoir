@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.anupcowkur.reservoirsample">
+<manifest package="com.anupcowkur.reservoirsample"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:allowBackup="true"
-        android:theme="@style/ReservoirAppTheme"
-        android:name=".SampleApp">
+        android:name=".SampleApp"
+        android:theme="@style/ReservoirAppTheme">
         <activity
             android:name="com.anupcowkur.reservoirsample.MainActivity"
             android:label="@string/reservoir_app_name">
