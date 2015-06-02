@@ -202,13 +202,11 @@ Reservoir.putAsync("myKey", myObject).subscribe(new Observer<Boolean>() {
 
 # Including in your project
 
-Add the jitpack repository to your gradle build file:
+Add the jcenter repository to your gradle build file if it's not already present:
 
 ```
 repositories {
-    maven {
-        url "https://jitpack.io"
-    }
+    jcenter()
 }
 ```
 
