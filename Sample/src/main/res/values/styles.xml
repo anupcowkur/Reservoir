@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="ReservoirAppTheme" parent="android:Theme.DeviceDefault">
+    <style name="ReservoirAppTheme" parent="android:Theme">
         <!-- Customize your theme here. -->
     </style>
 
