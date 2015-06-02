@@ -4,6 +4,5 @@
     <string name="reservoir_app_name">Reservoir Sample</string>
     <string name="reservoir_loading">Hang on....</string>
     <string name="reservoir_success">Success!</string>
-    <string name="reservoir_failure">Failed :-(</string>
 
 </resources>
