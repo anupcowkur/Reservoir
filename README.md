@@ -214,7 +214,7 @@ Next, add Reservoir as a dependency:
 
 ```groovy
 dependencies {
-    compile 'com.github.anupcowkur:reservoir:2.0'
+    compile 'com.anupcowkur:reservoir:2.0'
 }
 ```
 
