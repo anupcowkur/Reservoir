@@ -1,15 +1,19 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.novoda:bintray-release:0.2.10'
     }
 }
 apply plugin: 'android-library'
+apply plugin: 'bintray-release'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 android {
@@ -29,4 +33,13 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'commons-io:commons-io:2.4'
     compile 'io.reactivex:rxandroid:0.24.0'
+}
+
+publish {
+    userOrg = 'anupcowkur'
+    groupId = 'com.anupcowkur'
+    artifactId = 'reservoir'
+    publishVersion = project.VERSION_NAME
+    description = 'Reservoir v' + project.VERSION_NAME
+    website = 'https://github.com/anupcowkur/Reservoir'
 }
