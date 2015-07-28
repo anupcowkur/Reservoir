@@ -24,6 +24,8 @@ public class Reservoir {
 
     private static boolean initialised = false;
 
+    private static Gson sGson;
+
     /**
      * Initialize Reservoir
      *
@@ -31,11 +33,23 @@ public class Reservoir {
      * @param maxSize the maximum size in bytes.
      */
     public static synchronized void init(final Context context, final long maxSize) throws Exception {
+        init(context, maxSize, new Gson());
+    }
+
+    /**
+     * Initialize Reservoir
+     *
+     * @param context context.
+     * @param maxSize the maximum size in bytes.
+     * @param gson the Gson instance
+     */
+    public static synchronized void init(final Context context, final long maxSize, final Gson gson ) throws Exception {
 
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
         cacheDir = new File(context.getCacheDir() + "/Reservoir");
         createCache(cacheDir, maxSize);
+        sGson = gson;
         initialised = true;
     }
 
@@ -90,7 +104,7 @@ public class Reservoir {
      */
     public static void put(final String key, final Object object) throws Exception {
         failIfNotInitialised();
-        String json = new Gson().toJson(object);
+        String json = sGson.toJson(object);
         cache.put(key, json);
     }
 
@@ -146,7 +160,7 @@ public class Reservoir {
     public static <T> T get(final String key, final Class<T> classOfT) throws Exception {
         failIfNotInitialised();
         String json = cache.getString(key).getString();
-        T value = new Gson().fromJson(json, classOfT);
+        T value = sGson.fromJson(json, classOfT);
         if (value == null)
             throw new NullPointerException();
         return value;
@@ -308,7 +322,7 @@ public class Reservoir {
         protected Void doInBackground(Void... params) {
 
             try {
-                String json = new Gson().toJson(object);
+                String json = sGson.toJson(object);
                 cache.put(key, json);
             } catch (Exception e) {
                 this.e = e;
@@ -350,7 +364,7 @@ public class Reservoir {
         protected T doInBackground(Void... params) {
             try {
                 String json = cache.getString(key).getString();
-                T value = new Gson().fromJson(json, classOfT);
+                T value = sGson.fromJson(json, classOfT);
                 if (value == null)
                     throw new NullPointerException();
                 return value;
