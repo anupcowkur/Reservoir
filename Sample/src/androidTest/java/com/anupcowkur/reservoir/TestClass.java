@@ -1,4 +1,4 @@
-package com.anupcowkur.reservoirsample;
+package com.anupcowkur.reservoir;
 
 public class TestClass {
     private String testString;

@@ -3,7 +3,6 @@ package com.anupcowkur.reservoir;
 import com.google.gson.reflect.TypeToken;
 
 import com.anupcowkur.reservoirsample.MainActivity;
-import com.anupcowkur.reservoirsample.TestClass;
 
 import org.junit.Before;
 import org.junit.Rule;

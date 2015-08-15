@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -10,14 +10,15 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <TextView
-        android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/reservoir_loading"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/reservoir_activity_horizontal_margin"
+        android:layout_marginRight="@dimen/reservoir_activity_horizontal_margin"
+        android:gravity="center"
+        android:text="@string/reservoir_sample_msg"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 </RelativeLayout>
