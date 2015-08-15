@@ -16,7 +16,17 @@ try {
 }
 ```
 
-The best place to do this would be in your application's `onCreate()` method.
+If you want to pass in a custom GSON instance for whatever reason, you can do that too:
+
+```java
+try {
+    Reservoir.init(this, 2048, myGsonInstance);
+} catch (Exception e) {
+        //failure
+}
+```
+
+The best place to do this initialization would be in your application's `onCreate()` method.
 
 Since this library depends directly on [DiskLruCache](https://github.com/JakeWharton/DiskLruCache), you can refer that project for more info on the maximum size you can allocate etc.
 
@@ -27,6 +37,8 @@ You can put objects into Reservoir synchronously or asynchronously.
 Async put will you give you a callback on completion:
 
 ```java
+
+//Put a simple object
 Reservoir.putAsync("myKey", myObject, new ReservoirPutCallback() {
             @Override
             public void onSuccess() {
@@ -38,13 +50,43 @@ Reservoir.putAsync("myKey", myObject, new ReservoirPutCallback() {
                 //error
             }
         });
+
+
+//Put collection
+List<String> strings = new ArrayList<String>();
+strings.add("one");
+strings.add("two");
+strings.add("three");
+Reservoir.putAsync("myKey", strings, new ReservoirPutCallback() {
+            @Override
+            public void onSuccess() {
+                //success
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                //error
+            }
+        });        
 ```
 
 synchronous put:
 
 ```java
+//Put a simple object
 try {
-    Reservoir.put("myKey",myObject);
+    Reservoir.put("myKey", myObject);
+} catch (Exception e) {
+    //failure;
+}
+
+//Put collection
+List<String> strings = new ArrayList<String>();
+strings.add("one");
+strings.add("two");
+strings.add("three");
+try {
+    Reservoir.put("myKey", strings);
 } catch (Exception e) {
     //failure;
 }
@@ -59,6 +101,7 @@ You can get stuff out of Reservoir synchronously or asynchronously as well.
 Async get will give you a callback on completion:
 
 ```java
+//Get a simple object
 Reservoir.getAsync("myKey", MyClass.class, new ReservoirGetCallback<MyClass>() {
             @Override
             public void onSuccess(MyClass myObject) {
@@ -70,13 +113,36 @@ Reservoir.getAsync("myKey", MyClass.class, new ReservoirGetCallback<MyClass>() {
                 //error
             }
         });
+
+//Get collection
+Type resultType = new TypeToken<List<String>>() {}.getType();
+Reservoir.getAsync("myKey", resultType, new ReservoirGetCallback<List<String>>() {
+            @Override
+            public void onSuccess(List<String> strings) {
+                //success
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                //error
+            }
+        });        
 ```
 
 synchronous get:
 
 ```java
+//Get a simple object
 try {
-    Reservoir.get("myKey",MyClass.class);
+    Reservoir.get("myKey", MyClass.class);
+} catch (Exception e) {
+        //failure
+}
+
+//Get collection
+Type resultType = new TypeToken<List<String>>() {}.getType();
+try {
+    Reservoir.get("myKey", resultType);
 } catch (Exception e) {
         //failure
 }
@@ -157,16 +223,32 @@ try {
 ```
 ## RxJava
 
-As of version 2.0, you can use Reservoir with RxJava! All the async methods have RxJava variants that return observables. These observables are scheduled on a background thread and observed on the main thread by default (you can change this easily by assigning your own schedulers and observers to the returned observable).
+Reservoir is down with RxJava! All the async methods have RxJava variants that return observables. These observables are scheduled on a background thread and observed on the main thread by default (you can change this easily by assigning your own schedulers and observers to the returned observable).
 
 put:
+
 ```
+//Put a simple object
 Reservoir.putAsync("myKey", myObject) returns Observable<Boolean>
+
+//Put collection
+List<String> strings = new ArrayList<String>();
+strings.add("one");
+strings.add("two");
+strings.add("three");
+Reservoir.putAsync("myKey", strings) returns Observable<Boolean>
 ```
 
 get:
 ```
+//Get a simple object
 Reservoir.getAsync("myKey", MyClass.class) returns Observable<MyClass>
+
+//Get collection
+//Note : Rx observables return items one at a time. So even if you put in a complete collection, the items in the collection will be returned 
+//one by one by the observable.
+Type collectionType = new TypeToken<List<String>>() {}.getType();
+Reservoir.getAsync("myKey", String.class, collectionType) returns Observable<String>
 ```
 
 delete:
@@ -179,26 +261,7 @@ clear:
 Reservoir.clearAsync() returns Observable<Boolean>
 ```
 
-You can subscribe to any of these returned Observables like this:
-
-```
-Reservoir.putAsync("myKey", myObject).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onCompleted() {
-                //do something on completion
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                //do something on error
-            }
-
-            @Override
-            public void onNext(Boolean success) {
-                //do something on success status receipt
-            }
-        });
-```
+If you'd like to see examples of using these observables, check out the [tests in the sample application](https://github.com/anupcowkur/Reservoir/blob/master/Sample/src/androidTest/java/com/anupcowkur/reservoir/ReservoirTest.java).
 
 # Including in your project
 
@@ -214,7 +277,7 @@ Next, add Reservoir as a dependency:
 
 ```groovy
 dependencies {
-    compile 'com.anupcowkur:reservoir:2.0'
+    compile 'com.anupcowkur:reservoir:2.1'
 }
 ```
 
@@ -230,7 +293,7 @@ Older objects will be removed in a LRU (Least Recently Used) order.
 NO! This is a cache. You should store stuff in here that is good to have around, but you wouldn't mind if they were to be removed. SharedPreferences are meant to store user preferences which is not something you want to lose.
 
 # Sample
-Check out the [sample application](https://github.com/anupcowkur/Reservoir/tree/master/Sample) for example of typical usage.
+Check out the [sample application tests](https://github.com/anupcowkur/Reservoir/blob/master/Sample/src/androidTest/java/com/anupcowkur/reservoir/ReservoirTest.java) for complete examples of API usage.
 
 # Contributing
 Contributions welcome via Github pull requests.
