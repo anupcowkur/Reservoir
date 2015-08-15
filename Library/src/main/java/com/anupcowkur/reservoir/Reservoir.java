@@ -1,12 +1,14 @@
 package com.anupcowkur.reservoir;
 
+import com.google.gson.Gson;
+
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Collection;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -154,7 +156,7 @@ public class Reservoir {
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
      * @param key      the key string.
-     * @param classOfT the Class type of the expected return object.
+     * @param classOfT the class type of the expected return object.
      * @return the object of the given type if it exists.
      */
     public static <T> T get(final String key, final Class<T> classOfT) throws Exception {
@@ -167,9 +169,26 @@ public class Reservoir {
     }
 
     /**
+     * Get an object from Reservoir with the given key. This a blocking IO operation.
+     *
+     * @param key      the key string.
+     * @param typeOfT the type of the expected return object.
+     * @return the object of the given type if it exists.
+     */
+    public static <T> T get(final String key, final Type typeOfT) throws Exception {
+        failIfNotInitialised();
+        String json = cache.getString(key).getString();
+        T value = sGson.fromJson(json, typeOfT);
+        if (value == null)
+            throw new NullPointerException();
+        return value;
+    }
+
+    /**
      * Get an object from Reservoir with the given key asynchronously.
      *
      * @param key      the key string.
+     * @param classOfT the class type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
      *                 which is called upon completion.
      */
@@ -182,7 +201,22 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
+     * @param key      the key string.
+     * @param typeOfT  the type of the expected return object.
+     * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
+     *                 which is called upon completion.
+     */
+    public static <T> void getAsync(final String key, final Type typeOfT,
+                                    final ReservoirGetCallback<T> callback) {
+        failIfNotInitialised();
+        new GetTask<>(key, typeOfT, callback).execute();
+    }
+
+    /**
+     * Get an object from Reservoir with the given key asynchronously.
+     *
      * @param key the key string.
+     * @param classOfT the class type of the expected return object.
      * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
      */
@@ -194,6 +228,33 @@ public class Reservoir {
                 try {
                     T t = Reservoir.get(key, classOfT);
                     subscriber.onNext(t);
+                    subscriber.onCompleted();
+                } catch (Exception exception) {
+                    subscriber.onError(exception);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * Get an object from Reservoir with the given key asynchronously.
+     *
+     * @param key the key string.
+     * @param classOfT the class type of the expected return object.
+     * @param typeOfT the type of the collection object which contains objects of type {@code classOfT}.
+     * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
+     * will be scheduled on a background thread and will be observed on the main thread.
+     */
+    public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT, final Type typeOfT) {
+        failIfNotInitialised();
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                try {
+                    Collection<T> collectionOfT = Reservoir.get(key, typeOfT);
+                    for (T t : collectionOfT) {
+                        subscriber.onNext(t);
+                    }
                     subscriber.onCompleted();
                 } catch (Exception exception) {
                     subscriber.onError(exception);
@@ -351,12 +412,22 @@ public class Reservoir {
         private final String key;
         private final ReservoirGetCallback callback;
         private final Class<T> classOfT;
+        private final Type typeOfT;
         private Exception e;
 
         private GetTask(String key, Class<T> classOfT, ReservoirGetCallback callback) {
             this.key = key;
             this.callback = callback;
             this.classOfT = classOfT;
+            this.typeOfT = null;
+            this.e = null;
+        }
+
+        private GetTask(String key, Type typeOfT, ReservoirGetCallback callback) {
+            this.key = key;
+            this.callback = callback;
+            this.classOfT = null;
+            this.typeOfT = typeOfT;
             this.e = null;
         }
 
@@ -364,9 +435,10 @@ public class Reservoir {
         protected T doInBackground(Void... params) {
             try {
                 String json = cache.getString(key).getString();
-                T value = sGson.fromJson(json, classOfT);
-                if (value == null)
+                T value = sGson.fromJson(json, classOfT != null ? classOfT : typeOfT);
+                if (value == null) {
                     throw new NullPointerException();
+                }
                 return value;
             } catch (Exception e) {
                 this.e = e;
