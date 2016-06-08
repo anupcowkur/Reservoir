@@ -227,7 +227,7 @@ Reservoir is down with RxJava! All the async methods have RxJava variants that r
 
 put:
 
-```
+```java
 //Put a simple object
 Reservoir.putAsync("myKey", myObject) returns Observable<Boolean>
 
@@ -240,7 +240,7 @@ Reservoir.putAsync("myKey", strings) returns Observable<Boolean>
 ```
 
 get:
-```
+```java
 //Get a simple object
 Reservoir.getAsync("myKey", MyClass.class) returns Observable<MyClass>
 
@@ -252,12 +252,12 @@ Reservoir.getAsync("myKey", String.class, collectionType) returns Observable<Str
 ```
 
 delete:
-```
+```java
 Reservoir.deleteAsync("myKey") returns Observable<Boolean>
 ```
 
 clear:
-```
+```java
 Reservoir.clearAsync() returns Observable<Boolean>
 ```
 
@@ -267,7 +267,7 @@ If you'd like to see examples of using these observables, check out the [tests i
 
 Add the jcenter repository to your gradle build file if it's not already present:
 
-```
+```groovy
 repositories {
     jcenter()
 }
