@@ -3,6 +3,24 @@ Reservoir
 
 Reservoir is a simple library for Android that allows you to easily serialize and cache your objects to disk using key/value pairs.
 
+# Including in your project
+
+Add the jcenter repository to your gradle build file if it's not already present:
+
+```groovy
+repositories {
+    jcenter()
+}
+```
+
+Next, add Reservoir as a dependency:
+
+```groovy
+dependencies {
+    compile 'com.anupcowkur:reservoir:2.1'
+}
+```
+
 # Usage
 
 ## Initialize
@@ -271,24 +289,6 @@ Reservoir.clearAsync() returns Observable<Boolean>
 ```
 
 If you'd like to see examples of using these observables, check out the [tests in the sample application](https://github.com/anupcowkur/Reservoir/blob/master/Sample/src/androidTest/java/com/anupcowkur/reservoir/ReservoirTest.java).
-
-# Including in your project
-
-Add the jcenter repository to your gradle build file if it's not already present:
-
-```groovy
-repositories {
-    jcenter()
-}
-```
-
-Next, add Reservoir as a dependency:
-
-```groovy
-dependencies {
-    compile 'com.anupcowkur:reservoir:2.1'
-}
-```
 
 # FAQs
 
