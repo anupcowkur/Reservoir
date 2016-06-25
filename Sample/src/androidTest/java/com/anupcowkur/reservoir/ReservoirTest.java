@@ -1,21 +1,22 @@
 package com.anupcowkur.reservoir;
 
-import com.google.gson.reflect.TypeToken;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.LargeTest;
 
 import com.anupcowkur.reservoirsample.MainActivity;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import android.test.suitebuilder.annotation.MediumTest;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 
 import rx.Observer;
 
@@ -24,12 +25,9 @@ import static junit.framework.Assert.fail;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
-/**
- * The main reservoir class.
- */
+@RunWith(AndroidJUnit4.class)
+@LargeTest
 public class ReservoirTest {
-
-    MainActivity mainActivity;
 
     private static final String TEST_STRING = "my test string";
     private static final String KEY = "myKey";
@@ -37,18 +35,12 @@ public class ReservoirTest {
     private int i;
 
     @Rule
-    public final ActivityRule<MainActivity> rule = new ActivityRule<>(MainActivity.class);
+    public final ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
 
-    @Before
-    public void init() {
-        mainActivity = rule.get();
-    }
-
     @Test
-    @MediumTest
     public void testSyncShouldPutAndGetObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -64,7 +56,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testSyncShouldPutAndGetCollectionObject() throws Exception {
 
         Reservoir.put(KEY, TEST_COLLECTION);
@@ -79,7 +70,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncShouldPutAndGetObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -111,7 +101,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncShouldPutAndGetCollectionObject() throws Exception {
 
         Reservoir.putAsync(KEY, TEST_COLLECTION, new ReservoirPutCallback() {
@@ -143,7 +132,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncRxShouldPutAndGetObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -184,7 +172,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncRxShouldPutAndGetCollectionObject() throws Exception {
 
         final String[] strings = {"one", "two", "three", "four"};
@@ -231,18 +218,16 @@ public class ReservoirTest {
     }
 
     @Test(expected = NullPointerException.class)
-    @MediumTest
     public void testSyncShouldThrowNullPointerExceptionWhenObjectDoesNotExist() throws
-                                                                                Exception {
+            Exception {
 
         Reservoir.get("non_existent_key", TestClass.class);
 
     }
 
     @Test
-    @MediumTest
     public void testAsyncShouldCallOnFailureWhenObjectDoesNotExist() throws
-                                                                     Exception {
+            Exception {
 
         Reservoir.getAsync("non_existent_key", TestClass.class, new ReservoirGetCallback<TestClass>() {
             @Override
@@ -258,9 +243,8 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncRxShouldCallOnFailureWhenObjectDoesNotExist() throws
-                                                                       Exception {
+            Exception {
 
         Reservoir.getAsync("non_existent_key", TestClass.class).subscribe(new Observer<TestClass>() {
             @Override
@@ -281,9 +265,8 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testSyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
-                                                                                   Exception {
+            Exception {
 
         expectedEx.expect(IOException.class);
         expectedEx.expectMessage(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE);
@@ -292,9 +275,8 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testASyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
-                                                                                    Exception {
+            Exception {
 
         Reservoir.putAsync(KEY, TestUtils.getLargeString(), new ReservoirPutCallback() {
             @Override
@@ -312,9 +294,8 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testASyncRxShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
-                                                                                      Exception {
+            Exception {
 
         Reservoir.putAsync(KEY, TestUtils.getLargeString()).subscribe(new Observer<Boolean>() {
             @Override
@@ -337,7 +318,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testSyncShouldDeleteObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -351,7 +331,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncShouldDeleteObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -376,7 +355,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncRxShouldDeleteObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -406,7 +384,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testSyncShouldClearCache() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -420,7 +397,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncShouldClearCache() throws Exception {
 
         TestClass testPutObject = new TestClass();
@@ -446,7 +422,6 @@ public class ReservoirTest {
     }
 
     @Test
-    @MediumTest
     public void testAsyncRxShouldClearCache() throws Exception {
 
         TestClass testPutObject = new TestClass();
