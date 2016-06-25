@@ -3,6 +3,8 @@ Reservoir
 
 Reservoir is a simple library for Android that allows you to easily serialize and cache your objects to disk using key/value pairs.
 
+[ ![Download](https://api.bintray.com/packages/anupcowkur/maven/reservoir/images/download.svg) ](https://bintray.com/anupcowkur/maven/reservoir/_latestVersion)
+
 # Including in your project
 
 Add the jcenter repository to your gradle build file if it's not already present:
