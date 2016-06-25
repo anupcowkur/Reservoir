@@ -1,24 +1,12 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-    }
-}
-apply plugin: 'android'
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 22
+        minSdkVersion 9
+        targetSdkVersion 23
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,10 +20,11 @@ android {
 dependencies {
     compile project(':Library')
 
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile 'io.reactivex:rxandroid:0.24.0'
-
-
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    androidTestCompile 'com.android.support:appcompat-v7:23.4.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'io.reactivex:rxandroid:1.2.1'
+    androidTestCompile 'io.reactivex:rxjava:1.1.6'
 }

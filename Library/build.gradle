@@ -1,28 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'com.novoda:bintray-release:0.2.10'
+        classpath 'com.novoda:bintray-release:0.3.4'
     }
-}
-apply plugin: 'android-library'
-apply plugin: 'bintray-release'
-
-repositories {
-    mavenCentral()
-    jcenter()
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 22
+        minSdkVersion 9
+        targetSdkVersion 23
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
@@ -30,9 +24,10 @@ android {
 
 dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.7'
     compile 'commons-io:commons-io:2.4'
-    provided 'io.reactivex:rxandroid:0.24.0'
+    provided 'io.reactivex:rxandroid:1.2.1'
+    provided 'io.reactivex:rxjava:1.1.6'
 }
 
 publish {
