@@ -17,7 +17,7 @@ Next, add Reservoir as a dependency:
 
 ```groovy
 dependencies {
-    compile 'com.anupcowkur:reservoir:2.2'
+    compile 'com.anupcowkur:reservoir:3.0.0'
 }
 ```
 
