@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="reservoir_app_name">Reservoir Sample</string>
-    <string name="reservoir_sample_msg">Hello there! This is the Reservoir library sample app. Please see the tests associated with the project for complete API usage.</string>
-
+  <string name="reservoir_app_name">Reservoir Sample</string>
+  <string name="reservoir_sample_msg">Hello there! This is the Reservoir library sample app. Please see the tests associated with the project for complete API usage.</string>
 </resources>
