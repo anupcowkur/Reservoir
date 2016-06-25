@@ -223,7 +223,16 @@ try {
 ```
 ## RxJava
 
-Reservoir is down with RxJava! All the async methods have RxJava variants that return observables. These observables are scheduled on a background thread and observed on the main thread by default (you can change this easily by assigning your own schedulers and observers to the returned observable).
+Reservoir is down with RxJava! All the async methods have RxJava variants that return observables.
+
+First, you'll need to add RxJava dependency to your app since Reservoir does not come bundled with it:
+
+```
+compile 'io.reactivex:rxandroid:<rxandroid-version>' - tested with v1.2.1
+compile 'io.reactivex:rxjava:<rxjava-version>' - tested with v1.1.6
+```
+
+Then you can use the RxJava variants of all the regular Reservoir methods.
 
 put:
 
