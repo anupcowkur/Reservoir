@@ -25,7 +25,6 @@ android {
 dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'commons-io:commons-io:2.4'
     provided 'io.reactivex:rxandroid:1.2.1'
     provided 'io.reactivex:rxjava:1.1.6'
 }

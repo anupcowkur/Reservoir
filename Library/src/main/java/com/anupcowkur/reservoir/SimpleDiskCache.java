@@ -2,8 +2,6 @@ package com.anupcowkur.reservoir;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FilterOutputStream;
@@ -39,8 +37,9 @@ class SimpleDiskCache {
 
     StringEntry getString(String key) throws IOException {
         DiskLruCache.Snapshot snapshot = diskLruCache.get(toInternalKey(key));
-        if (snapshot == null)
+        if (snapshot == null) {
             return null;
+        }
 
         try {
             return new StringEntry(snapshot.getString(VALUE_IDX));
@@ -55,8 +54,9 @@ class SimpleDiskCache {
 
     boolean contains(String key) throws IOException {
         DiskLruCache.Snapshot snapshot = diskLruCache.get(toInternalKey(key));
-        if (snapshot == null)
+        if (snapshot == null) {
             return false;
+        }
 
         snapshot.close();
         return true;
@@ -102,8 +102,9 @@ class SimpleDiskCache {
             cos = openStream(key, annotations);
             cos.write(value.getBytes());
         } finally {
-            if (cos != null)
+            if (cos != null) {
                 cos.close();
+            }
         }
 
     }
@@ -116,7 +117,17 @@ class SimpleDiskCache {
                     (METADATA_IDX)));
             oos.writeObject(metadata);
         } finally {
-            IOUtils.closeQuietly(oos);
+            closeQuietly(oos);
+        }
+    }
+
+    private void closeQuietly(OutputStream output) {
+        try {
+            if (output != null) {
+                output.close();
+            }
+        } catch (IOException ioe) {
+            // ignore
         }
     }
 
@@ -163,8 +174,9 @@ class SimpleDiskCache {
                 editor.commit();
             }
 
-            if (closeException != null)
+            if (closeException != null) {
                 throw closeException;
+            }
         }
 
         @Override
