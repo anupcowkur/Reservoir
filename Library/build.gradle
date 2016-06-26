@@ -19,6 +19,13 @@ dependencies {
     provided 'io.reactivex:rxjava:1.1.6'
 }
 
+task makeJar(type: Copy, dependsOn: build) {
+    from('build/intermediates/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename('classes.jar', 'reservoir-' + project.VERSION_NAME + '-sources.jar')
+}
+
 task makeJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
