@@ -313,7 +313,6 @@ Contributions welcome via Github pull requests.
 Reservoir is just a tiny little convenience wrapper around the following fantastic projects:
 
 - [DiskLruCache](https://github.com/JakeWharton/DiskLruCache)
-- [Apache Commons IO](http://commons.apache.org/proper/commons-io/)
 - [SimpeDiskCache](https://github.com/fhucho/simple-disk-cache)
 - [GSON](https://code.google.com/p/google-gson/)
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
