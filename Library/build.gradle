@@ -1,14 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.3.4'
-    }
-}
 
 android {
     compileSdkVersion 23
@@ -27,13 +17,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     provided 'io.reactivex:rxandroid:1.2.1'
     provided 'io.reactivex:rxjava:1.1.6'
-}
-
-publish {
-    userOrg = 'anupcowkur'
-    groupId = 'com.anupcowkur'
-    artifactId = 'reservoir'
-    publishVersion = project.VERSION_NAME
-    description = 'Android library to easily serialize and cache your objects to disk using key/value pairs.'
-    website = 'https://github.com/anupcowkur/Reservoir'
 }
