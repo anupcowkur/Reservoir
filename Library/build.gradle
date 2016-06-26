@@ -18,3 +18,17 @@ dependencies {
     provided 'io.reactivex:rxandroid:1.2.1'
     provided 'io.reactivex:rxjava:1.1.6'
 }
+
+task makeJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+afterEvaluate {
+    makeJavadocs.classpath += project.android.libraryVariants.toList().first().javaCompile.classpath
+}
+
+task makeJavadocsJar(type: Jar, dependsOn: makeJavadocs) {
+    classifier = 'javadoc'
+    from makeJavadocs.destinationDir
+}
+
