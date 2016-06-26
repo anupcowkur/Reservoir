@@ -1,9 +1,9 @@
 package com.anupcowkur.reservoir;
 
-import com.google.gson.Gson;
-
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +33,10 @@ public class Reservoir {
      *
      * @param context context.
      * @param maxSize the maximum size in bytes.
+     *
+     * @throws IOException thrown if the cache cannot be initialized.
      */
-    public static synchronized void init(final Context context, final long maxSize) throws Exception {
+    public static synchronized void init(final Context context, final long maxSize) throws IOException {
         init(context, maxSize, new Gson());
     }
 
@@ -43,9 +45,11 @@ public class Reservoir {
      *
      * @param context context.
      * @param maxSize the maximum size in bytes.
-     * @param gson the Gson instance
+     * @param gson the Gson instance.
+     *
+     * @throws IOException thrown if the cache cannot be initialized.
      */
-    public static synchronized void init(final Context context, final long maxSize, final Gson gson ) throws Exception {
+    public static synchronized void init(final Context context, final long maxSize, final Gson gson ) throws IOException {
 
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
@@ -58,9 +62,9 @@ public class Reservoir {
     /**
      * Checks if init method has been called and throws an IllegalStateException if it hasn't.
      *
-     * @throws IllegalStateException
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    private static void failIfNotInitialised() throws IllegalStateException {
+    private static void failIfNotInitialised() {
         if (!initialised) {
             throw new IllegalStateException("Init hasn't been called! You need to initialise " +
                     "Reservoir before you call any other methods.");
@@ -72,9 +76,11 @@ public class Reservoir {
      *
      * @param cacheDir the directory where the cache is to be created.
      * @param maxSize  the maximum cache size in bytes.
+     *
+     * @throws IOException thrown if the cache cannot be created.
      */
     private static synchronized void createCache(final File cacheDir, final long maxSize) throws
-            Exception {
+            IOException {
         boolean success = true;
         if (!cacheDir.exists()) {
             success = cacheDir.mkdir();
@@ -90,8 +96,11 @@ public class Reservoir {
      *
      * @param key the key string.
      * @return true if object with given key exists.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    public static boolean contains(final String key) throws Exception {
+    public static boolean contains(final String key) throws IOException {
         failIfNotInitialised();
         return cache.contains(key);
     }
@@ -103,8 +112,11 @@ public class Reservoir {
      *
      * @param key    the key string.
      * @param object the object to be stored.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    public static void put(final String key, final Object object) throws Exception {
+    public static void put(final String key, final Object object) throws IOException {
         failIfNotInitialised();
         String json = sGson.toJson(object);
         cache.put(key, json);
@@ -119,6 +131,8 @@ public class Reservoir {
      * @param object   the object to be stored.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirPutCallback}
      *                 which is called upon completion.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static void putAsync(final String key, final Object object,
                                 final ReservoirPutCallback callback) {
@@ -135,6 +149,8 @@ public class Reservoir {
      * @param object the object to be stored.
      * @return an {@link Observable} that will insert the object into Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static Observable<Boolean> putAsync(final String key, final Object object) {
         failIfNotInitialised();
@@ -158,8 +174,11 @@ public class Reservoir {
      * @param key      the key string.
      * @param classOfT the class type of the expected return object.
      * @return the object of the given type if it exists.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    public static <T> T get(final String key, final Class<T> classOfT) throws Exception {
+    public static <T> T get(final String key, final Class<T> classOfT) throws IOException {
         failIfNotInitialised();
         String json = cache.getString(key).getString();
         T value = sGson.fromJson(json, classOfT);
@@ -174,8 +193,11 @@ public class Reservoir {
      * @param key      the key string.
      * @param typeOfT the type of the expected return object.
      * @return the object of the given type if it exists.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    public static <T> T get(final String key, final Type typeOfT) throws Exception {
+    public static <T> T get(final String key, final Type typeOfT) throws IOException {
         failIfNotInitialised();
         String json = cache.getString(key).getString();
         T value = sGson.fromJson(json, typeOfT);
@@ -191,6 +213,8 @@ public class Reservoir {
      * @param classOfT the class type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
      *                 which is called upon completion.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> void getAsync(final String key, final Class<T> classOfT,
                                     final ReservoirGetCallback<T> callback) {
@@ -205,6 +229,8 @@ public class Reservoir {
      * @param typeOfT  the type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
      *                 which is called upon completion.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> void getAsync(final String key, final Type typeOfT,
                                     final ReservoirGetCallback<T> callback) {
@@ -219,6 +245,8 @@ public class Reservoir {
      * @param classOfT the class type of the expected return object.
      * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT) {
         failIfNotInitialised();
@@ -244,6 +272,8 @@ public class Reservoir {
      * @param typeOfT the type of the collection object which contains objects of type {@code classOfT}.
      * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT, final Type typeOfT) {
         failIfNotInitialised();
@@ -269,8 +299,11 @@ public class Reservoir {
      * key (if any) will be deleted.
      *
      * @param key the key string.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    public static void delete(final String key) throws Exception {
+    public static void delete(final String key) throws IOException {
         failIfNotInitialised();
         cache.delete(key);
     }
@@ -283,6 +316,8 @@ public class Reservoir {
      * @param key      the key string.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirDeleteCallback}
      *                 which is called upon completion.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static void deleteAsync(final String key, final ReservoirDeleteCallback callback) {
         failIfNotInitialised();
@@ -297,6 +332,8 @@ public class Reservoir {
      * @param key the key string.
      * @return an {@link Observable} that will delete the object from Reservoir.By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static Observable<Boolean> deleteAsync(final String key) {
         failIfNotInitialised();
@@ -316,8 +353,11 @@ public class Reservoir {
 
     /**
      * Clears the cache. Deletes all the stored key-value pairs synchronously.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    public static void clear() throws Exception {
+    public static void clear() throws IOException {
         failIfNotInitialised();
         long maxSize = cache.getMaxSize();
         cache.destroy();
@@ -326,8 +366,10 @@ public class Reservoir {
 
     /**
      * Clears the cache. Deletes all the stored key-value pairs asynchronously.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static void clearAsync(final ReservoirClearCallback callback) throws Exception {
+    public static void clearAsync(final ReservoirClearCallback callback){
         failIfNotInitialised();
         new ClearTask(callback).execute();
     }
@@ -337,6 +379,8 @@ public class Reservoir {
      *
      * @return an {@link Observable} that will clear all the key-value pairs from Reservoir.By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static Observable<Boolean> clearAsync() {
         failIfNotInitialised();
@@ -356,8 +400,11 @@ public class Reservoir {
 
     /**
      * Returns the number of bytes being used currently by the cache.
+     *
+     * @throws IllegalStateException thrown if init method hasn't been called.
+     * @throws IOException thrown if cache cannot be accessed.
      */
-    static long bytesUsed() throws Exception {
+    static long bytesUsed() throws IOException {
         failIfNotInitialised();
         return cache.bytesUsed();
     }
