@@ -171,6 +171,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
+     * @param <T> the type of the object to get.
      * @param key      the key string.
      * @param classOfT the class type of the expected return object.
      * @return the object of the given type if it exists.
@@ -190,6 +191,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
+     * @param <T> the type of the object to get.
      * @param key      the key string.
      * @param typeOfT the type of the expected return object.
      * @return the object of the given type if it exists.
@@ -209,6 +211,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
+     * @param <T> the type of the object to get.
      * @param key      the key string.
      * @param classOfT the class type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
@@ -225,6 +228,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
+     * @param <T> the type of the object to get.
      * @param key      the key string.
      * @param typeOfT  the type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
@@ -241,6 +245,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
+     * @param <T> the type of the object to get.
      * @param key the key string.
      * @param classOfT the class type of the expected return object.
      * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
@@ -267,6 +272,7 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
+     * @param <T> the type of the object to get.
      * @param key the key string.
      * @param classOfT the class type of the expected return object.
      * @param typeOfT the type of the collection object which contains objects of type {@code classOfT}.
@@ -367,6 +373,8 @@ public class Reservoir {
     /**
      * Clears the cache. Deletes all the stored key-value pairs asynchronously.
      *
+     * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirClearCallback}
+     *                 which is called upon completion.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static void clearAsync(final ReservoirClearCallback callback){
