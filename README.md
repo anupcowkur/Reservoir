@@ -243,7 +243,7 @@ try {
 ```
 ## RxJava
 
-Reservoir is down with RxJava! All the async methods have RxJava variants that return observables.
+Reservoir is down with RxJava! All the async methods have RxJava variants that return observables. These observables are scheduled on a background thread and observed on the main thread by default (you can change this easily by assigning your own schedulers and observers to the returned observable).
 
 First, you'll need to add RxJava dependency to your app since Reservoir does not come bundled with it:
 
