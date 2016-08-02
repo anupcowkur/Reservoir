@@ -260,36 +260,36 @@ put:
 
 ```java
 //Put a simple object
-Reservoir.putAsync("myKey", myObject) returns Observable<Boolean>
+Reservoir.putUsingObservable("myKey", myObject) returns Observable<Boolean>
 
 //Put collection
 List<String> strings = new ArrayList<String>();
 strings.add("one");
 strings.add("two");
 strings.add("three");
-Reservoir.putAsync("myKey", strings) returns Observable<Boolean>
+Reservoir.putUsingObservable("myKey", strings) returns Observable<Boolean>
 ```
 
 get:
 ```java
 //Get a simple object
-Reservoir.getAsync("myKey", MyClass.class) returns Observable<MyClass>
+Reservoir.getUsingObservable("myKey", MyClass.class) returns Observable<MyClass>
 
 //Get collection
 //Note : Rx observables return items one at a time. So even if you put in a complete collection, the items in the collection will be returned 
 //one by one by the observable.
 Type collectionType = new TypeToken<List<String>>() {}.getType();
-Reservoir.getAsync("myKey", String.class, collectionType) returns Observable<String>
+Reservoir.getUsingObservable("myKey", String.class, collectionType) returns Observable<String>
 ```
 
 delete:
 ```java
-Reservoir.deleteAsync("myKey") returns Observable<Boolean>
+Reservoir.deleteUsingObservable("myKey") returns Observable<Boolean>
 ```
 
 clear:
 ```java
-Reservoir.clearAsync() returns Observable<Boolean>
+Reservoir.clearUsingObservable() returns Observable<Boolean>
 ```
 
 If you'd like to see examples of using these observables, check out the [tests in the sample application](https://github.com/anupcowkur/Reservoir/blob/master/Sample/src/androidTest/java/com/anupcowkur/reservoir/ReservoirTest.java).
