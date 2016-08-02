@@ -145,7 +145,7 @@ public class Reservoir {
      * will be scheduled on a background thread and will be observed on the main thread.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static Observable<Boolean> putAsync(final String key, final Object object) {
+    public static Observable<Boolean> putUsingObservable(final String key, final Object object) {
         failIfNotInitialised();
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
@@ -241,7 +241,7 @@ public class Reservoir {
      * will be scheduled on a background thread and will be observed on the main thread.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT) {
+    public static <T> Observable<T> getUsingObservable(final String key, final Class<T> classOfT) {
         failIfNotInitialised();
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
@@ -268,7 +268,7 @@ public class Reservoir {
      * will be scheduled on a background thread and will be observed on the main thread.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT, final Type typeOfT) {
+    public static <T> Observable<T> getUsingObservable(final String key, final Class<T> classOfT, final Type typeOfT) {
         failIfNotInitialised();
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
@@ -325,7 +325,7 @@ public class Reservoir {
      * will be scheduled on a background thread and will be observed on the main thread.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static Observable<Boolean> deleteAsync(final String key) {
+    public static Observable<Boolean> deleteUsingObservable(final String key) {
         failIfNotInitialised();
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
@@ -373,7 +373,7 @@ public class Reservoir {
      * will be scheduled on a background thread and will be observed on the main thread.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static Observable<Boolean> clearAsync() {
+    public static Observable<Boolean> clearUsingObservable() {
         failIfNotInitialised();
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override

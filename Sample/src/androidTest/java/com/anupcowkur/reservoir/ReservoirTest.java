@@ -138,7 +138,7 @@ public class ReservoirTest {
 
         testPutObject.setTestString(TEST_STRING);
 
-        Reservoir.putAsync(KEY, testPutObject).subscribe(new Observer<Boolean>() {
+        Reservoir.putUsingObservable(KEY, testPutObject).subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
 
@@ -151,7 +151,7 @@ public class ReservoirTest {
 
             @Override
             public void onNext(Boolean success) {
-                Reservoir.getAsync(KEY, TestClass.class).subscribe(new Observer<TestClass>() {
+                Reservoir.getUsingObservable(KEY, TestClass.class).subscribe(new Observer<TestClass>() {
                     @Override
                     public void onCompleted() {
 
@@ -180,7 +180,7 @@ public class ReservoirTest {
 
         i = 0;
 
-        Reservoir.putAsync(KEY, testStrings).subscribe(new Observer<Boolean>() {
+        Reservoir.putUsingObservable(KEY, testStrings).subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
 
@@ -197,7 +197,7 @@ public class ReservoirTest {
                 final Type testResultType = new TypeToken<List<String>>() {
                 }.getType();
 
-                Reservoir.getAsync(KEY, String.class, testResultType).subscribe(new Observer<String>() {
+                Reservoir.getUsingObservable(KEY, String.class, testResultType).subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
 
@@ -246,7 +246,7 @@ public class ReservoirTest {
     public void testAsyncRxShouldCallOnFailureWhenObjectDoesNotExist() throws
             Exception {
 
-        Reservoir.getAsync("non_existent_key", TestClass.class).subscribe(new Observer<TestClass>() {
+        Reservoir.getUsingObservable("non_existent_key", TestClass.class).subscribe(new Observer<TestClass>() {
             @Override
             public void onCompleted() {
                 fail();
@@ -297,7 +297,7 @@ public class ReservoirTest {
     public void testASyncRxShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
             Exception {
 
-        Reservoir.putAsync(KEY, TestUtils.getLargeString()).subscribe(new Observer<Boolean>() {
+        Reservoir.putUsingObservable(KEY, TestUtils.getLargeString()).subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
                 fail();
@@ -361,7 +361,7 @@ public class ReservoirTest {
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
 
-        Reservoir.deleteAsync(KEY).subscribe(new Observer<Boolean>() {
+        Reservoir.deleteUsingObservable(KEY).subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
 
@@ -428,7 +428,7 @@ public class ReservoirTest {
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
 
-        Reservoir.clearAsync().subscribe(new Observer<Boolean>() {
+        Reservoir.clearUsingObservable().subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
 
