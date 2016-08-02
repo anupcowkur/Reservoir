@@ -33,7 +33,6 @@ public class Reservoir {
      *
      * @param context context.
      * @param maxSize the maximum size in bytes.
-     *
      * @throws IOException thrown if the cache cannot be initialized.
      */
     public static synchronized void init(final Context context, final long maxSize) throws IOException {
@@ -45,11 +44,10 @@ public class Reservoir {
      *
      * @param context context.
      * @param maxSize the maximum size in bytes.
-     * @param gson the Gson instance.
-     *
+     * @param gson    the Gson instance.
      * @throws IOException thrown if the cache cannot be initialized.
      */
-    public static synchronized void init(final Context context, final long maxSize, final Gson gson ) throws IOException {
+    public static synchronized void init(final Context context, final long maxSize, final Gson gson) throws IOException {
 
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
@@ -76,7 +74,6 @@ public class Reservoir {
      *
      * @param cacheDir the directory where the cache is to be created.
      * @param maxSize  the maximum cache size in bytes.
-     *
      * @throws IOException thrown if the cache cannot be created.
      */
     private static synchronized void createCache(final File cacheDir, final long maxSize) throws
@@ -96,9 +93,8 @@ public class Reservoir {
      *
      * @param key the key string.
      * @return true if object with given key exists.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     public static boolean contains(final String key) throws IOException {
         failIfNotInitialised();
@@ -112,9 +108,8 @@ public class Reservoir {
      *
      * @param key    the key string.
      * @param object the object to be stored.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     public static void put(final String key, final Object object) throws IOException {
         failIfNotInitialised();
@@ -131,7 +126,6 @@ public class Reservoir {
      * @param object   the object to be stored.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirPutCallback}
      *                 which is called upon completion.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static void putAsync(final String key, final Object object,
@@ -149,7 +143,6 @@ public class Reservoir {
      * @param object the object to be stored.
      * @return an {@link Observable} that will insert the object into Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static Observable<Boolean> putAsync(final String key, final Object object) {
@@ -171,13 +164,12 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
-     * @param <T> the type of the object to get.
+     * @param <T>      the type of the object to get.
      * @param key      the key string.
      * @param classOfT the class type of the expected return object.
      * @return the object of the given type if it exists.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     public static <T> T get(final String key, final Class<T> classOfT) throws IOException {
         failIfNotInitialised();
@@ -191,13 +183,12 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key. This a blocking IO operation.
      *
-     * @param <T> the type of the object to get.
-     * @param key      the key string.
+     * @param <T>     the type of the object to get.
+     * @param key     the key string.
      * @param typeOfT the type of the expected return object.
      * @return the object of the given type if it exists.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     public static <T> T get(final String key, final Type typeOfT) throws IOException {
         failIfNotInitialised();
@@ -211,12 +202,11 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
-     * @param <T> the type of the object to get.
+     * @param <T>      the type of the object to get.
      * @param key      the key string.
      * @param classOfT the class type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
      *                 which is called upon completion.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> void getAsync(final String key, final Class<T> classOfT,
@@ -228,12 +218,11 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
-     * @param <T> the type of the object to get.
+     * @param <T>      the type of the object to get.
      * @param key      the key string.
      * @param typeOfT  the type of the expected return object.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirGetCallback}
      *                 which is called upon completion.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> void getAsync(final String key, final Type typeOfT,
@@ -245,12 +234,11 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
-     * @param <T> the type of the object to get.
-     * @param key the key string.
+     * @param <T>      the type of the object to get.
+     * @param key      the key string.
      * @param classOfT the class type of the expected return object.
      * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT) {
@@ -272,13 +260,12 @@ public class Reservoir {
     /**
      * Get an object from Reservoir with the given key asynchronously.
      *
-     * @param <T> the type of the object to get.
-     * @param key the key string.
+     * @param <T>      the type of the object to get.
+     * @param key      the key string.
      * @param classOfT the class type of the expected return object.
-     * @param typeOfT the type of the collection object which contains objects of type {@code classOfT}.
+     * @param typeOfT  the type of the collection object which contains objects of type {@code classOfT}.
      * @return an {@link Observable} that will fetch the object from Reservoir. By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static <T> Observable<T> getAsync(final String key, final Class<T> classOfT, final Type typeOfT) {
@@ -305,9 +292,8 @@ public class Reservoir {
      * key (if any) will be deleted.
      *
      * @param key the key string.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     public static void delete(final String key) throws IOException {
         failIfNotInitialised();
@@ -322,7 +308,6 @@ public class Reservoir {
      * @param key      the key string.
      * @param callback a callback of type {@link com.anupcowkur.reservoir.ReservoirDeleteCallback}
      *                 which is called upon completion.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static void deleteAsync(final String key, final ReservoirDeleteCallback callback) {
@@ -338,7 +323,6 @@ public class Reservoir {
      * @param key the key string.
      * @return an {@link Observable} that will delete the object from Reservoir.By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static Observable<Boolean> deleteAsync(final String key) {
@@ -361,7 +345,7 @@ public class Reservoir {
      * Clears the cache. Deletes all the stored key-value pairs synchronously.
      *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     public static void clear() throws IOException {
         failIfNotInitialised();
@@ -377,7 +361,7 @@ public class Reservoir {
      *                 which is called upon completion.
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
-    public static void clearAsync(final ReservoirClearCallback callback){
+    public static void clearAsync(final ReservoirClearCallback callback) {
         failIfNotInitialised();
         new ClearTask(callback).execute();
     }
@@ -387,7 +371,6 @@ public class Reservoir {
      *
      * @return an {@link Observable} that will clear all the key-value pairs from Reservoir.By default, this
      * will be scheduled on a background thread and will be observed on the main thread.
-     *
      * @throws IllegalStateException thrown if init method hasn't been called.
      */
     public static Observable<Boolean> clearAsync() {
@@ -410,7 +393,7 @@ public class Reservoir {
      * Returns the number of bytes being used currently by the cache.
      *
      * @throws IllegalStateException thrown if init method hasn't been called.
-     * @throws IOException thrown if cache cannot be accessed.
+     * @throws IOException           thrown if cache cannot be accessed.
      */
     static long bytesUsed() throws IOException {
         failIfNotInitialised();
