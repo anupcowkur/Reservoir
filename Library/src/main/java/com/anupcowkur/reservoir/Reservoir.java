@@ -473,7 +473,12 @@ public class Reservoir {
         protected T doInBackground(Void... params) {
             try {
                 String json = cache.getString(key).getString();
-                T value = sGson.fromJson(json, classOfT != null ? classOfT : typeOfT);
+                T value;
+                if (classOfT != null) {
+                    value = sGson.fromJson(json, classOfT);
+                } else {
+                    value = sGson.fromJson(json, typeOfT);
+                }
                 if (value == null) {
                     throw new NullPointerException();
                 }
