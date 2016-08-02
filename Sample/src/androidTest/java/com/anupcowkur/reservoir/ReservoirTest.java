@@ -42,7 +42,6 @@ public class ReservoirTest {
 
     @Test
     public void testSyncShouldPutAndGetObject() throws Exception {
-
         TestClass testPutObject = new TestClass();
 
         testPutObject.setTestString(TEST_STRING);
@@ -52,12 +51,10 @@ public class ReservoirTest {
         TestClass testResultObject = Reservoir.get(KEY, TestClass.class);
 
         assertEquals(TEST_STRING, testResultObject.getTestString());
-
     }
 
     @Test
     public void testSyncShouldPutAndGetCollectionObject() throws Exception {
-
         Reservoir.put(KEY, TEST_COLLECTION);
 
         Type testResultType = new TypeToken<List<Object>>() {
@@ -66,12 +63,10 @@ public class ReservoirTest {
         List<Object> testResultCollection = Reservoir.get(KEY, testResultType);
 
         assertEquals(TEST_COLLECTION, testResultCollection);
-
     }
 
     @Test
     public void testAsyncShouldPutAndGetObject() throws Exception {
-
         TestClass testPutObject = new TestClass();
 
         testPutObject.setTestString(TEST_STRING);
@@ -97,12 +92,10 @@ public class ReservoirTest {
                 fail();
             }
         });
-
     }
 
     @Test
     public void testAsyncShouldPutAndGetCollectionObject() throws Exception {
-
         Reservoir.putAsync(KEY, TEST_COLLECTION, new ReservoirPutCallback() {
             @Override
             public void onSuccess() {
@@ -128,12 +121,10 @@ public class ReservoirTest {
                 fail();
             }
         });
-
     }
 
     @Test
     public void testRxShouldPutAndGetObject() throws Exception {
-
         TestClass testPutObject = new TestClass();
 
         testPutObject.setTestString(TEST_STRING);
@@ -173,7 +164,6 @@ public class ReservoirTest {
 
     @Test
     public void testRxShouldPutAndGetCollectionObject() throws Exception {
-
         final String[] strings = {"one", "two", "three", "four"};
 
         List<String> testStrings = new ArrayList<>(Arrays.asList(strings));
@@ -220,15 +210,12 @@ public class ReservoirTest {
     @Test(expected = NullPointerException.class)
     public void testSyncShouldThrowNullPointerExceptionWhenObjectDoesNotExist() throws
             Exception {
-
         Reservoir.get("non_existent_key", TestClass.class);
-
     }
 
     @Test
     public void testAsyncShouldCallOnFailureWhenObjectDoesNotExist() throws
             Exception {
-
         Reservoir.getAsync("non_existent_key", TestClass.class, new ReservoirGetCallback<TestClass>() {
             @Override
             public void onSuccess(TestClass object) {
@@ -245,7 +232,6 @@ public class ReservoirTest {
     @Test
     public void testRxShouldCallOnFailureWhenObjectDoesNotExist() throws
             Exception {
-
         Reservoir.getUsingObservable("non_existent_key", TestClass.class).subscribe(new Observer<TestClass>() {
             @Override
             public void onCompleted() {
@@ -267,7 +253,6 @@ public class ReservoirTest {
     @Test
     public void testSyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
             Exception {
-
         expectedEx.expect(IOException.class);
         expectedEx.expectMessage(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE);
 
@@ -275,9 +260,8 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testASyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
+    public void testAsyncShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
             Exception {
-
         Reservoir.putAsync(KEY, TestUtils.getLargeString(), new ReservoirPutCallback() {
             @Override
             public void onSuccess() {
@@ -290,13 +274,11 @@ public class ReservoirTest {
                 assertEquals(SimpleDiskCache.OBJECT_SIZE_GREATER_THAN_CACHE_SIZE_MESSAGE, e.getMessage());
             }
         });
-
     }
 
     @Test
     public void testRxShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
             Exception {
-
         Reservoir.putUsingObservable(KEY, TestUtils.getLargeString()).subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
@@ -314,12 +296,10 @@ public class ReservoirTest {
                 fail();
             }
         });
-
     }
 
     @Test
     public void testSyncShouldDeleteObject() throws Exception {
-
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
@@ -327,12 +307,10 @@ public class ReservoirTest {
         Reservoir.delete(KEY);
 
         assertEquals(false, Reservoir.contains(KEY));
-
     }
 
     @Test
     public void testAsyncShouldDeleteObject() throws Exception {
-
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
@@ -356,7 +334,6 @@ public class ReservoirTest {
 
     @Test
     public void testRxShouldDeleteObject() throws Exception {
-
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
@@ -385,7 +362,6 @@ public class ReservoirTest {
 
     @Test
     public void testSyncShouldClearCache() throws Exception {
-
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
@@ -393,12 +369,10 @@ public class ReservoirTest {
         Reservoir.clear();
 
         assertEquals(0, Reservoir.bytesUsed());
-
     }
 
     @Test
     public void testAsyncShouldClearCache() throws Exception {
-
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);
@@ -418,12 +392,10 @@ public class ReservoirTest {
                 fail();
             }
         });
-
     }
 
     @Test
     public void testRxShouldClearCache() throws Exception {
-
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
         Reservoir.put(KEY, testPutObject);

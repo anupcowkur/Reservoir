@@ -48,7 +48,6 @@ public class Reservoir {
      * @throws IOException thrown if the cache cannot be initialized.
      */
     public static synchronized void init(final Context context, final long maxSize, final Gson gson) throws IOException {
-
         //Create a directory inside the application specific cache directory. This is where all
         // the key-value pairs will be stored.
         cacheDir = new File(context.getCacheDir() + "/Reservoir");
@@ -404,7 +403,6 @@ public class Reservoir {
      * AsyncTask to perform put operation in a background thread.
      */
     private static class PutTask extends AsyncTask<Void, Void, Void> {
-
         private final String key;
         private Exception e;
         private final ReservoirPutCallback callback;
@@ -446,7 +444,6 @@ public class Reservoir {
      * AsyncTask to perform get operation in a background thread.
      */
     private static class GetTask<T> extends AsyncTask<Void, Void, T> {
-
         private final String key;
         private final ReservoirGetCallback callback;
         private final Class<T> classOfT;
@@ -506,7 +503,6 @@ public class Reservoir {
      * AsyncTask to perform delete operation in a background thread.
      */
     private static class DeleteTask extends AsyncTask<Void, Void, Void> {
-
         private final String key;
         private Exception e;
         private final ReservoirDeleteCallback callback;
@@ -544,7 +540,6 @@ public class Reservoir {
      * AsyncTask to perform clear operation in a background thread.
      */
     private static class ClearTask extends AsyncTask<Void, Void, Void> {
-
         private Exception e;
         private final ReservoirClearCallback callback;
 
