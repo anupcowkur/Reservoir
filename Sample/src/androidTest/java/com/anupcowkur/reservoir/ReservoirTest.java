@@ -132,7 +132,7 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testAsyncRxShouldPutAndGetObject() throws Exception {
+    public void testRxShouldPutAndGetObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
 
@@ -172,7 +172,7 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testAsyncRxShouldPutAndGetCollectionObject() throws Exception {
+    public void testRxShouldPutAndGetCollectionObject() throws Exception {
 
         final String[] strings = {"one", "two", "three", "four"};
 
@@ -243,7 +243,7 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testAsyncRxShouldCallOnFailureWhenObjectDoesNotExist() throws
+    public void testRxShouldCallOnFailureWhenObjectDoesNotExist() throws
             Exception {
 
         Reservoir.getUsingObservable("non_existent_key", TestClass.class).subscribe(new Observer<TestClass>() {
@@ -294,7 +294,7 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testASyncRxShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
+    public void testRxShouldThrowIOExceptionWhenObjectSizeGreaterThanCacheSize() throws
             Exception {
 
         Reservoir.putUsingObservable(KEY, TestUtils.getLargeString()).subscribe(new Observer<Boolean>() {
@@ -355,7 +355,7 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testAsyncRxShouldDeleteObject() throws Exception {
+    public void testRxShouldDeleteObject() throws Exception {
 
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
@@ -422,7 +422,7 @@ public class ReservoirTest {
     }
 
     @Test
-    public void testAsyncRxShouldClearCache() throws Exception {
+    public void testRxShouldClearCache() throws Exception {
 
         TestClass testPutObject = new TestClass();
         testPutObject.setTestString(TEST_STRING);
