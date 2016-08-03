@@ -5,7 +5,7 @@ Reservoir is a simple library for Android that allows you to easily serialize an
 
 [ ![Download](https://api.bintray.com/packages/anupcowkur/maven/reservoir/images/download.svg) ](https://bintray.com/anupcowkur/maven/reservoir/_latestVersion)
 
-<a href="http://www.methodscount.com/?lib=com.anupcowkur%3Areservoir%3A3.0.0"><img src="https://img.shields.io/badge/Methods and size-core: 163 | deps: 1528 | 19 KB-e91e63.svg"/></a>
+<a href="http://www.methodscount.com/?lib=com.anupcowkur%3Areservoir%3A3.1.0"><img src="https://img.shields.io/badge/Methods and size-core: 163 | deps: 1528 | 19 KB-e91e63.svg"/></a>
 
 # Including in your project
 
@@ -21,7 +21,7 @@ Next, add Reservoir as a dependency:
 
 ```groovy
 dependencies {
-    compile 'com.anupcowkur:reservoir:3.0.0'
+    compile 'com.anupcowkur:reservoir:3.1.0'
 }
 ```
 
