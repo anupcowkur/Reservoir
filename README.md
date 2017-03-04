@@ -33,7 +33,7 @@ Reservoir uses the internal cache storage allocated to your app. Before you can 
 ```java
 try {
     Reservoir.init(this, 2048); //in bytes
-} catch (Exception e) {
+} catch (IOException e) {
         //failure
 }
 ```
@@ -43,7 +43,7 @@ If you want to pass in a custom GSON instance for whatever reason, you can do th
 ```java
 try {
     Reservoir.init(this, 2048, myGsonInstance);
-} catch (Exception e) {
+} catch (IOException e) {
         //failure
 }
 ```
@@ -98,7 +98,7 @@ synchronous put:
 //Put a simple object
 try {
     Reservoir.put("myKey", myObject);
-} catch (Exception e) {
+} catch (IOException e) {
     //failure;
 }
 
@@ -109,7 +109,7 @@ strings.add("two");
 strings.add("three");
 try {
     Reservoir.put("myKey", strings);
-} catch (Exception e) {
+} catch (IOException e) {
     //failure;
 }
 ```
@@ -157,7 +157,7 @@ synchronous get:
 //Get a simple object
 try {
     Reservoir.get("myKey", MyClass.class);
-} catch (Exception e) {
+} catch (IOException e) {
         //failure
 }
 
@@ -165,7 +165,7 @@ try {
 Type resultType = new TypeToken<List<String>>() {}.getType();
 try {
     Reservoir.get("myKey", resultType);
-} catch (Exception e) {
+} catch (IOException e) {
         //failure
 }
 ```
@@ -177,7 +177,7 @@ If you wish to know whether an object exists for the given key, you can use:
 ```java
 try {
     boolean objectExists = Reservoir.contains("myKey");
-} catch (Exception e) {}
+} catch (IOException e) {}
 ```
 
 ## Delete Stuff
@@ -205,7 +205,7 @@ synchronous delete:
 ```java
 try {
     Reservoir.delete("myKey");
-} catch (Exception e) {
+} catch (IOException e) {
         //failure
 }
 ```
@@ -239,7 +239,7 @@ synchronous clear:
 ```java
 try {
     Reservoir.clear();
-} catch (Exception e) {
+} catch (IOException e) {
         //failure
 }
 ```
