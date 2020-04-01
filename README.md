@@ -1,3 +1,9 @@
+# Deprecated
+This library is now deprecated.
+
+Please look into [Store](https://github.com/dropbox/store) instead.
+
+
 Reservoir
 =========
 
