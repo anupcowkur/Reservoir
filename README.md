@@ -1,7 +1,5 @@
 # Deprecated
-This library is now deprecated.
-
-Please look into [Store](https://github.com/dropbox/store) instead.
+This project is no longer maintained. No new issues or pull requests will be accepted. You can still use the source or fork the project to suit your needs.
 
 
 Reservoir
